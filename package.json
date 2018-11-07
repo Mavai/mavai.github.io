@@ -23,12 +23,13 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "coverage": "jest --coverage",
+    "coverage": "react-scripts test --coverage --env=jsdom",
     "eject": "react-scripts eject",
     "server": "json-server -p3001 db.json"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.6",
+    "coveralls": "^3.0.2",
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.6.0",
     "eslint": "^4.19.1",

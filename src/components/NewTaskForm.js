@@ -4,7 +4,7 @@ import { createTask } from '../reducers/taskReducer';
 import Placeholder from './Placeholder';
 import TaskForm from './TaskForm';
 
-class NewTaskForm extends React.PureComponent {
+export class NewTaskForm extends React.PureComponent {
 
   createTask = formData => {
     const { createTask, history } = this.props;
