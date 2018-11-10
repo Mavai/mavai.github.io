@@ -3,10 +3,11 @@ import { connect } from 'react-redux';
 import { createTask } from '../reducers/taskReducer';
 import Placeholder from './Placeholder';
 import TaskForm from './TaskForm';
+import { selectCurrent } from '../reducers/projectReducer';
 
 export class NewTaskForm extends React.PureComponent {
 
-  createTask = formData => {
+  onSubmit = formData => {
     const { createTask, history } = this.props;
     createTask(formData);
     history.push('/');
@@ -20,17 +21,14 @@ export class NewTaskForm extends React.PureComponent {
     );
 
     return (
-      <TaskForm onSubmit={this.createTask} />
+      <TaskForm onSubmit={this.onSubmit} />
     );
   }
 }
 
-const mapStateToProps = state => ({
-  selectedProject: state.projects.all
-    .find(project => project.id === state.projects.selected)
-});
-
-export default connect(
-  mapStateToProps,
-  { createTask }
+export default connect(state =>
+  ({
+    selectedProject: selectCurrent(state)
+  }),
+{ createTask }
 )(NewTaskForm);

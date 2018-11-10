@@ -2,11 +2,12 @@ import React from 'react';
 import { PieChart, Pie, Tooltip, Cell, Legend } from 'recharts';
 import { connect } from 'react-redux';
 import Placeholder from './Placeholder';
+import { selectTasksByStatus, selectsTasks } from '../reducers/taskReducer';
+import { selectCurrentProject } from '../reducers/projectReducer';
 
-class ProjectInfo extends React.PureComponent {
+export class ProjectInfo extends React.PureComponent {
 
   render() {
-
     const { selectedProject, tasksByStatus, tasks } = this.props;
     if (!selectedProject) return (
       <Placeholder />
@@ -18,12 +19,14 @@ class ProjectInfo extends React.PureComponent {
       color: obj.status.color
     }));
     return (
-      <div>
+      <div className='project-info'>
         <div style={{ display: 'inline-block' }}>
           <h2>Name: {selectedProject.name}</h2>
           <h3>Total tasks: {tasks.length}</h3>
           {tasksByStatus.map(obj => (
-            <h3 key={obj.status.name}>{obj.status.name}: {obj.tasks.length}</h3>
+            <h3 className='status-info' key={obj.status.name}>
+              {obj.status.name}: {obj.tasks.length}
+            </h3>
           ))}
         </div>
         <PieChart width={250} height={250} style={{ float: 'right' }}>
@@ -40,25 +43,11 @@ class ProjectInfo extends React.PureComponent {
   }
 }
 
-const filteredByStatus = (tasks, status) =>
-  tasks.filter(task => task.status.id === status.id);
-
-const mapStateToProps = state => {
-  const { tasks, projects, statuses } = state;
-  const tasksByStatus = statuses.map(status => ({
-    status,
-    tasks: filteredByStatus(tasks, status)
-  }));
-  return {
-    tasksByStatus,
-    statuses: statuses,
-    selectedProject: projects.all
-      .find(project => project.id === projects.selected),
-    tasks
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  null
+export default connect(state =>
+  ({
+    tasksByStatus: selectTasksByStatus(state),
+    selectedProject: selectCurrentProject(state),
+    tasks: selectsTasks(state)
+  }),
+null
 )(ProjectInfo);

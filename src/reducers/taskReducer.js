@@ -103,4 +103,16 @@ export const removeTask = (task) => {
   };
 };
 
+export const selectTasksByStatus = state => {
+  const { tasks, statuses } = state;
+  return statuses.map(status => ({
+    status,
+    tasks: tasks.filter(task => task.status.id === status.id)
+  }));
+};
+
+export const selectsTasks = state => {
+  return state.tasks;
+};
+
 export default taskReducer;

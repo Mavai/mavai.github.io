@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { selectProject } from '../reducers/projectReducer';
+import { selectProject, selectProjects, selectCurrentProject } from '../reducers/projectReducer';
 import { Dropdown } from 'semantic-ui-react';
 
 export class ProjectDropdown extends React.PureComponent {
@@ -8,10 +8,10 @@ export class ProjectDropdown extends React.PureComponent {
   render() {
     const { selectedProject, projects, selectProject } = this.props;
     return (
-      <Dropdown item text={selectedProject ? selectedProject.name : 'Project'}>
+      <Dropdown className='dropdown' item text={selectedProject ? selectedProject.name : 'Project'}>
         <Dropdown.Menu>
           {projects.map(project =>
-            <Dropdown.Item key={project.name} onClick={() => selectProject(project.id)}>
+            <Dropdown.Item className='dropdown-item' key={project.name} onClick={() => selectProject(project.id)}>
               {project.name}
             </Dropdown.Item>
           )}
@@ -21,15 +21,10 @@ export class ProjectDropdown extends React.PureComponent {
   }
 }
 
-const mapStateToProps = (state) => {
-  const { all: projects, selected } = state.projects;
-  return {
-    projects,
-    selectedProject: projects.find(project => project.id === selected)
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  { selectProject }
+export default connect(state =>
+  ({
+    projects: selectProjects(state),
+    selectedProject: selectCurrentProject(state)
+  }),
+{ selectProject }
 )(ProjectDropdown);

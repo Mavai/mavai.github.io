@@ -10,7 +10,7 @@ const Task = props => {
       <Card.Content>
         <Card.Header>{task.name}</Card.Header>
         <div>
-          <Card.Description>{task.description} </Card.Description>
+          <Card.Description>{task.description}</Card.Description>
           <TaskControls removeTask={removeTask} editTask={editTask} />
         </div>
       </Card.Content>

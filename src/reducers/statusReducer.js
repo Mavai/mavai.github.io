@@ -21,4 +21,8 @@ export const initStatuses = () => {
   };
 };
 
+export const selectStatuses = state => {
+  return state.statuses;
+}
+
 export default statusReducer;

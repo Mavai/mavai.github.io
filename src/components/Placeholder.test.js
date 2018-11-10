@@ -5,8 +5,8 @@ import Placeholder from './Placeholder';
 describe.only('<Placeholder />', () => {
   it('renders content', () => {
 
-    const noteComponent = shallow(<Placeholder />);
-    const contentDiv = noteComponent.find('.placeholder');
+    const wrapper = shallow(<Placeholder />);
+    const contentDiv = wrapper.find('.placeholder');
 
     expect(contentDiv.text()).toContain('Select project');
   });
