@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { createTask } from '../reducers/taskReducer';
 import Placeholder from './Placeholder';
 import TaskForm from './TaskForm';
-import { selectCurrent } from '../reducers/projectReducer';
+import { selectCurrentProject } from '../reducers/projectReducer';
 
 export class NewTaskForm extends React.PureComponent {
 
@@ -28,7 +28,7 @@ export class NewTaskForm extends React.PureComponent {
 
 export default connect(state =>
   ({
-    selectedProject: selectCurrent(state)
+    selectedProject: selectCurrentProject(state)
   }),
 { createTask }
 )(NewTaskForm);

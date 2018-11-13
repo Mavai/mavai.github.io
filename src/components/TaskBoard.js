@@ -1,7 +1,7 @@
 import React from 'react';
 import { Grid } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-import { DragDropContext } from 'react-beautiful-dnd';
+import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import StatusColumn from './StatusColumn';
 import { changeTaskStatus } from '../reducers/taskReducer';
 import Placeholder from './Placeholder';
@@ -37,10 +37,19 @@ class TaskBoard extends React.PureComponent {
       <DragDropContext onDragEnd={this.onDragEnd}>
         <Grid columns={statuses.length || 1} stackable>
           {statuses.map(status => (
-            <StatusColumn
-              key={status.name}
-              tasks={this.getColumnTasks(taskBoard[status.id])}
-              status={status}/>
+            <Grid.Column key={status.name}>
+              <Droppable droppableId={status.id}>
+                {(provided) => (
+                  <div ref={provided.innerRef} style={{ minHeight: '100%' }}>
+                    <StatusColumn
+                      key={status.name}
+                      tasks={this.getColumnTasks(taskBoard[status.id])}
+                      status={status}/>
+                    {provided.placeholder}
+                  </div>
+                )}
+              </Droppable>
+            </Grid.Column>
           ))}
         </Grid>
       </DragDropContext>
