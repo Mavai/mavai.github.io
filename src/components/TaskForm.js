@@ -52,7 +52,7 @@ export class TaskForm extends React.PureComponent {
         />
         <Button type='submit'>Submit</Button>
         { onCancel &&
-        <Button onClick={this.onCancel}>Cancel</Button> }
+        <Button className='cancel' onClick={this.onCancel}>Cancel</Button> }
       </Form>
     );
   }
@@ -62,7 +62,11 @@ TaskForm.defaultProps = {
   statuses: []
 };
 
-const FormikTaskForm = withFormik({
+export const handleSubmit = ( values, { props }) => {
+  props.onSubmit(values);
+};
+
+export const FormikTaskForm = withFormik({
   mapPropsToValues: ({ initialValues = {} }) => {
     const { name = '', description = '', status = {} } = initialValues;
     return {
@@ -71,9 +75,7 @@ const FormikTaskForm = withFormik({
       status: status.id || ''
     };
   },
-  handleSubmit: (values, { props }) => {
-    props.onSubmit(values);
-  }
+  handleSubmit
 })(TaskForm);
 
 export default connect(state =>

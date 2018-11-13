@@ -7,7 +7,7 @@ const EditTaskModal = props => {
   return (
     <Modal open={task.editMode}>
       <Modal.Header>
-                          Edit task
+        Edit task
       </Modal.Header>
       <Modal.Content>
         <EditTaskForm task={task} />

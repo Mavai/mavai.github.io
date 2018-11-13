@@ -1,6 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { StatusColumn } from './StatusColumn';
+import Task from './Task';
 
 describe('<StatusColumn />', () => {
   let wrapper;
@@ -27,6 +28,13 @@ describe('<StatusColumn />', () => {
   });
 
   it('renders all tasks', () => {
-    expect(wrapper.find('.draggable-task').length).toEqual(tasks.length);
+    expect(wrapper.find('.draggable-task')).toHaveLength(tasks.length);
+  });
+
+  it('renders tasks with correct props', () => {
+    const draggable = wrapper.find('Connect(Draggable)').first();
+    const taskWrapper = shallow(draggable.prop('children')({})).find(Task);
+    expect(taskWrapper.first().prop('removeTask')).toEqual(mockRemove);
+    expect(taskWrapper.first().prop('updateTask')).toEqual(mockUpdate);
   });
 });
