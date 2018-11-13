@@ -129,12 +129,19 @@ const calculateTaskBoard = (taskBoard, task, boardInfo) => {
 };
 
 export const selectProjects = state => {
-  return state.projects.all();
+  return state.projects.all;
 };
 
 export const selectCurrentProject = state => {
-  const { all, selected } = state;
+  const { all, selected } = state.projects;
   return all.find(project => project.id === selected);
+};
+
+export const selectTaskBoard = state => {
+  const selectedProject = selectCurrentProject(state);
+  return selectedProject
+    ? selectedProject.taskBoard
+    : null;
 };
 
 export default projectReducer;

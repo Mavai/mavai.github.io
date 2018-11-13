@@ -3,36 +3,48 @@ import { Form, Button } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { createTask } from '../reducers/taskReducer';
 import { withFormik } from 'formik';
+import { selectStatuses } from '../reducers/statusReducer';
 
-class TaskForm extends React.PureComponent {
+export class TaskForm extends React.PureComponent {
 
   onCancel = (e) => {
     e.preventDefault();
     this.props.onCancel();
   }
 
+  getStatusDropdown = statuses => {
+    return statuses.map(status => (
+      {
+        key: status.name,
+        text: status.name,
+        value: status.id
+      }
+    ));
+  }
+
   render() {
     const { statuses, handleChange, setFieldValue, handleSubmit, onCancel, values } = this.props;
-
-    const options = statuses.map(status => ({ key: status.name, text: status.name, value: status.id }));
     return (
       <Form onSubmit={handleSubmit}>
         <Form.Input
+          className='form-field'
           label='Name'
           onChange={handleChange}
           value={values.name}
           name='name'
         />
         <Form.Input
+          className='form-field'
           label='Description'
           onChange={handleChange}
           value={values.description}
           name='description'
         />
         <Form.Dropdown
+          className='form-field'
           selection
           label='Status'
-          options = {options}
+          options = {this.getStatusDropdown(statuses)}
           onChange={(e, { name, value }) => setFieldValue(name, value)}
           name='status'
           placeholder='Status'
@@ -46,9 +58,9 @@ class TaskForm extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
-  statuses: state.statuses
-});
+TaskForm.defaultProps = {
+  statuses: []
+};
 
 const FormikTaskForm = withFormik({
   mapPropsToValues: ({ initialValues = {} }) => {
@@ -64,7 +76,9 @@ const FormikTaskForm = withFormik({
   }
 })(TaskForm);
 
-export default connect(
-  mapStateToProps,
-  { createTask }
+export default connect(state =>
+  ({
+    statuses: selectStatuses(state)
+  }),
+{ createTask }
 )(FormikTaskForm);

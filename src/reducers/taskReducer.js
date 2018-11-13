@@ -115,4 +115,14 @@ export const selectsTasks = state => {
   return state.tasks;
 };
 
+export const selectTasksAsMap = state => {
+  const { tasks } = state;
+  return tasks.length
+    ? tasks.reduce((obj, task) => ({
+      ...obj,
+      [task.id]: task
+    }), {})
+    : null;
+};
+
 export default taskReducer;

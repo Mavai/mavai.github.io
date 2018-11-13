@@ -3,11 +3,13 @@ import { Grid } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { DragDropContext } from 'react-beautiful-dnd';
 import StatusColumn from './StatusColumn';
-import { changeTaskStatus } from '../reducers/taskReducer';
+import { changeTaskStatus, selectTasksAsMap } from '../reducers/taskReducer';
 import Placeholder from './Placeholder';
+import { selectTaskBoard, selectCurrentProject } from '../reducers/projectReducer';
+import { selectStatuses } from '../reducers/statusReducer';
 
 
-class TaskBoard extends React.PureComponent {
+export class TaskBoard extends React.PureComponent {
 
   onDragEnd = async result => {
     const { taskBoard, tasks, changeTaskStatus } = this.props;
@@ -53,26 +55,12 @@ TaskBoard.defaultProps = {
   taskBoard: {}
 };
 
-const mapStateToProps = state => {
-  const { tasks: taskList, statuses, projects } = state;
-  const tasks = taskList.length
-    ? taskList.reduce((obj, task) => ({
-      ...obj,
-      [task.id]: task
-    }), {})
-    : null;
-  const selectedProject = projects.all.find(project => project.id === projects.selected);
-  const taskBoard = selectedProject ? selectedProject.taskBoard : {};
-
-  return {
-    tasks,
-    statuses,
-    selectedProject,
-    taskBoard
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  { changeTaskStatus }
+export default connect(state =>
+  ({
+    tasks: selectTasksAsMap(state),
+    statuses: selectStatuses(state),
+    selectedProject: selectCurrentProject(state),
+    taskBoard: selectTaskBoard(state)
+  }),
+{ changeTaskStatus }
 )(TaskBoard);
