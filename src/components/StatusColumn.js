@@ -8,13 +8,13 @@ import EditTaskModal from './EditTaskModal';
 
 export class StatusColumn extends React.PureComponent {
   render () {
-    const { status, tasks, removeTask, updateTask } = this.props;
+    const { tasks, removeTask, updateTask } = this.props;
 
     return (
       <div>
-        <h1>{status.name}</h1>
-        {tasks.map((task, index) =>
-          task &&
+        <div>
+          {tasks.map((task, index) =>
+            task &&
           <div className='draggable-task' key={task.id}>
             <Draggable key={task.id} draggableId={task.id} index={index}>
               {(provided) => (
@@ -30,7 +30,8 @@ export class StatusColumn extends React.PureComponent {
               )}
             </Draggable>
           </div>
-        )}
+          )}
+        </div>
       </div>
     );
   }

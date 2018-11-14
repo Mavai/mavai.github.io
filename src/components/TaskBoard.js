@@ -18,7 +18,7 @@ export class TaskBoard extends React.PureComponent {
     const { droppableId: newStatus, index: destinationIndex } = result.destination;
     const taskId = taskBoard[oldStatus][sourceIndex];
     const task = tasks[taskId];
-    const updatedTask = { ...task, status: newStatus, project: task.project.id };
+    const updatedTask = { ...task, status: newStatus };
     await changeTaskStatus(updatedTask, { oldStatus, newStatus, sourceIndex, destinationIndex });
   };
 
@@ -40,6 +40,7 @@ export class TaskBoard extends React.PureComponent {
         <Grid columns={statuses.length || 1} stackable>
           {statuses.map(status => (
             <Grid.Column key={status.name}>
+              <h1>{status.name}</h1>
               <Droppable droppableId={status.id}>
                 {(provided) => (
                   <div ref={provided.innerRef} style={{ minHeight: '100%' }}>

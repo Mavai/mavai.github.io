@@ -23,10 +23,6 @@ describe('<StatusColumn />', () => {
     );
   });
 
-  it('has correct status name as header', () => {
-    expect(wrapper.find('h1').text()).toEqual(status.name);
-  });
-
   it('renders all tasks', () => {
     expect(wrapper.find('.draggable-task')).toHaveLength(tasks.length);
   });
