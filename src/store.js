@@ -1,5 +1,5 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
-import taskReducer from './reducers/taskReducer';
+import taskReducer, * as FromTasks from './reducers/taskReducer';
 import statusReducer from './reducers/statusReducer';
 import projectReducer from './reducers/projectReducer';
 import { composeWithDevTools } from 'redux-devtools-extension';
@@ -17,5 +17,19 @@ const store = createStore(
     applyMiddleware(thunk)
   )
 );
+
+export const selectTasksByStatus = state => {
+  const { tasks, statuses } = state;
+  return FromTasks.selectTasksByStatus(tasks, statuses);
+};
+
+export const selectsTasks = state => {
+  return state.tasks;
+};
+
+export const selectTasksAsMap = state => {
+  const { tasks } = state;
+  return FromTasks.selectTasksAsMap(tasks);
+};
 
 export default store;

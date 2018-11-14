@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import NavBar from './components/NavBar';
 import TaskBoard from './components/TaskBoard';
 import ProjectInfo from './components/ProjectInfo';
-import { initTasks } from './reducers/taskReducer';
+import { initTasks } from './operations/taskOperations';
 import { initStatuses } from './reducers/statusReducer';
 import { initProjects } from './reducers/projectReducer';
 import NewTaskForm from './components/NewTaskForm';

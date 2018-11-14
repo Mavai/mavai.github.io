@@ -1,7 +1,7 @@
 import React from 'react';
 import { Form, Button } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-import { createTask } from '../reducers/taskReducer';
+import { createTask } from '../operations/taskOperations';
 import { withFormik } from 'formik';
 import { selectStatuses } from '../reducers/statusReducer';
 

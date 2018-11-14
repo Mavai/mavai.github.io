@@ -2,7 +2,7 @@ import React from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 import Task from './Task';
 import { connect } from 'react-redux';
-import { removeTask, updateTask } from '../reducers/taskReducer';
+import { removeTask, updateTask } from '../operations/taskOperations';
 import { selectCurrentProject } from '../reducers/projectReducer';
 import EditTaskModal from './EditTaskModal';
 

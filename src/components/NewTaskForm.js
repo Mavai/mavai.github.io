@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { createTask } from '../reducers/taskReducer';
+import { createTask } from '../operations/taskOperations';
 import Placeholder from './Placeholder';
 import TaskForm from './TaskForm';
 import { selectCurrentProject } from '../reducers/projectReducer';

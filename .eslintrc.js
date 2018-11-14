@@ -38,6 +38,15 @@ module.exports = {
         "object-curly-spacing": [
             "error", "always"
         ],
+        "array-bracket-spacing": [
+            "error", "always"
+        ],
+        "comma-spacing": [
+            "error", 
+            { "before": false, "after": true }],
+        "key-spacing": [
+            "error", 
+            { "beforeColon": false, "afterColon": true }],
         "arrow-spacing": [
             "error", { "before": true, "after": true }
         ],

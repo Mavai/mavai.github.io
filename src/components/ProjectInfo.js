@@ -2,7 +2,7 @@ import React from 'react';
 import { PieChart, Pie, Tooltip, Cell, Legend } from 'recharts';
 import { connect } from 'react-redux';
 import Placeholder from './Placeholder';
-import { selectTasksByStatus, selectsTasks } from '../reducers/taskReducer';
+import { selectTasksByStatus, selectsTasks } from '../store';
 import { selectCurrentProject } from '../reducers/projectReducer';
 
 export class ProjectInfo extends React.PureComponent {
