@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow, mount } from 'enzyme';
+import { shallow } from 'enzyme';
 import EditTaskModal from './EditTaskModal';
 import { Modal } from 'semantic-ui-react';
 import EditTaskForm from './EditTaskForm';
@@ -20,5 +20,5 @@ describe('<EditTaskModal />', () => {
     const wrapper = shallow(<EditTaskModal task={task} />);
     expect(wrapper.find(EditTaskForm)).toHaveLength(1);
     expect(wrapper.find(EditTaskForm).prop('task')).toEqual(task);
-  })
+  });
 });

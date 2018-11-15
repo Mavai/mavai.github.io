@@ -13,7 +13,7 @@ describe('<TaskBoard />', () => {
     '2': { id: 2, name: 'Test task 2' }
   };
   const taskBoard = {
-    '1': ['1', '2'],
+    '1': [ '1', '2' ],
     '2': []
   };
   const selectedProject = { id: 1, name: 'Test project' };
@@ -45,7 +45,7 @@ describe('<TaskBoard />', () => {
     );
     const droppable = wrapper.find('Connect(Droppable)').first();
     const statusColumn = shallow(droppable.prop('children')({})).find(StatusColumn);
-    const columnTasks = [tasks['1'], tasks['2']];
+    const columnTasks = [ tasks['1'], tasks['2'] ];
     expect(statusColumn.prop('status')).toEqual(statuses[0]);
     expect(statusColumn.prop('tasks')).toHaveLength(2);
     expect(statusColumn.prop('tasks')).toEqual(columnTasks);

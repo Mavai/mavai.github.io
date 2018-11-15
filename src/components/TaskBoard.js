@@ -4,11 +4,13 @@ import { connect } from 'react-redux';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import StatusColumn from './StatusColumn';
 import { changeTaskStatus } from '../operations/taskOperations';
-import { selectTasksAsMap } from '../store';
+import {
+  selectTasksAsMap,
+  selectCurrentProject,
+  selectCurrentTaskboard,
+  selectStatuses
+} from '../store';
 import Placeholder from './Placeholder';
-import { selectTaskBoard, selectCurrentProject } from '../reducers/projectReducer';
-import { selectStatuses } from '../reducers/statusReducer';
-
 
 export class TaskBoard extends React.PureComponent {
 
@@ -71,7 +73,7 @@ export default connect(state =>
     tasks: selectTasksAsMap(state),
     statuses: selectStatuses(state),
     selectedProject: selectCurrentProject(state),
-    taskBoard: selectTaskBoard(state)
+    taskBoard: selectCurrentTaskboard(state)
   }),
 { changeTaskStatus }
 )(TaskBoard);

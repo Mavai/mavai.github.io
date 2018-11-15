@@ -28,6 +28,7 @@
     "server": "json-server -p3001 db.json"
   },
   "devDependencies": {
+    "axios-mock-adapter": "^1.15.0",
     "babel-eslint": "^8.2.6",
     "coveralls": "^3.0.2",
     "enzyme": "^3.7.0",

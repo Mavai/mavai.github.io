@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { selectProject, selectProjects, selectCurrentProject } from '../reducers/projectReducer';
+import { selectProject } from '../operations/projectOperations';
+import { selectProjects, selectCurrentProject } from '../store';
 import { Dropdown } from 'semantic-ui-react';
 
 export class ProjectDropdown extends React.PureComponent {

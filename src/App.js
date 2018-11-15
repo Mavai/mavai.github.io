@@ -6,25 +6,26 @@ import NavBar from './components/NavBar';
 import TaskBoard from './components/TaskBoard';
 import ProjectInfo from './components/ProjectInfo';
 import { initTasks } from './operations/taskOperations';
-import { initStatuses } from './reducers/statusReducer';
-import { initProjects } from './reducers/projectReducer';
+import { initStatuses } from './operations/statusOperations';
+import { initProjects } from './operations/projectOperations';
 import NewTaskForm from './components/NewTaskForm';
+import { selectCurrentProject } from './store';
 
-class App extends PureComponent {
+export class App extends PureComponent {
 
   componentDidMount = async () => {
     await this.initState();
   }
 
   initState = async () => {
-    this.props.initStatuses();
-    this.props.initProjects();
+    await this.props.initStatuses();
+    await this.props.initProjects();
   }
 
   componentDidUpdate = () => {
     const { selectedProject } = this.props;
     if (selectedProject) {
-      this.props.initTasks(selectedProject);
+      this.props.initTasks(selectedProject.id);
     }
   }
 
@@ -53,13 +54,9 @@ class App extends PureComponent {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    selectedProject: state.projects.selected
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  { initTasks, initStatuses, initProjects }
+export default connect(state =>
+  ({
+    selectedProject: selectCurrentProject(state)
+  }),
+{ initTasks, initStatuses, initProjects }
 )(App);

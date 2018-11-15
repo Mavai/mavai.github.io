@@ -3,7 +3,7 @@ import { Draggable } from 'react-beautiful-dnd';
 import Task from './Task';
 import { connect } from 'react-redux';
 import { removeTask, updateTask } from '../operations/taskOperations';
-import { selectCurrentProject } from '../reducers/projectReducer';
+import { selectCurrentProject } from '../store';
 import EditTaskModal from './EditTaskModal';
 
 export class StatusColumn extends React.PureComponent {

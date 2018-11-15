@@ -1,5 +1,3 @@
-import statusService from '../services/statuses';
-
 const initialState = [];
 
 const statusReducer = (state = initialState, action) => {
@@ -10,19 +8,5 @@ const statusReducer = (state = initialState, action) => {
       return state;
   }
 };
-
-export const initStatuses = () => {
-  return async (dispatch) => {
-    const statuses = await statusService.getAll();
-    dispatch({
-      type: 'INIT_STATUSES',
-      statuses
-    });
-  };
-};
-
-export const selectStatuses = state => {
-  return state.statuses;
-}
 
 export default statusReducer;

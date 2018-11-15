@@ -3,7 +3,7 @@ import { Form, Button } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { createTask } from '../operations/taskOperations';
 import { withFormik } from 'formik';
-import { selectStatuses } from '../reducers/statusReducer';
+import { selectStatuses } from '../store';
 
 export class TaskForm extends React.PureComponent {
 

@@ -1,5 +1,6 @@
 import taskService from '../services/tasks';
-import { updateTaskBoard, selectCurrentProject } from '../reducers/projectReducer';
+import { updateTaskBoard } from '../operations/projectOperations';
+import { selectCurrentProject } from '../store';
 import Creators from '../actions/taskActions';
 
 /**

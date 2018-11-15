@@ -2,8 +2,7 @@ import React from 'react';
 import { PieChart, Pie, Tooltip, Cell, Legend } from 'recharts';
 import { connect } from 'react-redux';
 import Placeholder from './Placeholder';
-import { selectTasksByStatus, selectsTasks } from '../store';
-import { selectCurrentProject } from '../reducers/projectReducer';
+import { selectTasksByStatus, selectTasks, selectCurrentProject } from '../store';
 
 export class ProjectInfo extends React.PureComponent {
 
@@ -47,7 +46,7 @@ export default connect(state =>
   ({
     tasksByStatus: selectTasksByStatus(state),
     selectedProject: selectCurrentProject(state),
-    tasks: selectsTasks(state)
+    tasks: selectTasks(state)
   }),
 null
 )(ProjectInfo);
