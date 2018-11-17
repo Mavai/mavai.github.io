@@ -78,8 +78,9 @@ describe('Project operations', () => {
     const expectedActions = [
       { type: Types.UPDATE_PROJECT, project: updateProject }
     ];
-    await store.dispatch(Operations.addTaskToBoard(project, task));
-    expect(store.getActions()).toEqual(expectedActions);
+    return store.dispatch(Operations.addTaskToBoard(project, task)).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    });
   });
 
   it('removeFromTaskBoard updates project with correct taskboard', async () => {
@@ -99,8 +100,9 @@ describe('Project operations', () => {
     const expectedActions = [
       { type: Types.UPDATE_PROJECT, project: updateProject }
     ];
-    await store.dispatch(Operations.removeTaskFromBoard(project, task));
-    expect(store.getActions()).toEqual(expectedActions);
+    return store.dispatch(Operations.removeTaskFromBoard(project, task)).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    });
   });
 
   it('updateTaskOnBoard updates project with correct taskboard when status is updated', async () => {
@@ -127,8 +129,9 @@ describe('Project operations', () => {
       { type: Types.UPDATE_PROJECT, project: {  ...project, taskBoard: updateTaskBoard } },
       { type: Types.UPDATE_PROJECT, project: updateProject }
     ];
-    await store.dispatch(Operations.updateTaskOnBoard(project, task, boardInfo));
-    expect(store.getActions()).toEqual(expectedActions);
+    return store.dispatch(Operations.updateTaskOnBoard(project, task, boardInfo)).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    });
   });
 
   it('updateTaskOnBoard updates project with correct taskboard when status is updated', async () => {
@@ -155,7 +158,8 @@ describe('Project operations', () => {
       { type: Types.UPDATE_PROJECT, project: {  ...project, taskBoard: updateTaskBoard } },
       { type: Types.UPDATE_PROJECT, project: updateProject }
     ];
-    await store.dispatch(Operations.updateTaskOnBoard(project, task, boardInfo));
-    expect(store.getActions()).toEqual(expectedActions);
+    return store.dispatch(Operations.updateTaskOnBoard(project, task, boardInfo)).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    });
   });
 });
