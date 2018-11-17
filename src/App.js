@@ -14,12 +14,11 @@ import { selectCurrentProject } from './store';
 export class App extends PureComponent {
 
   componentDidMount = async () => {
-    await this.initState();
-  }
-
-  initState = async () => {
-    await this.props.initStatuses();
-    await this.props.initProjects();
+    const { initProjects, initStatuses } = this.props;
+    await Promise.all([
+      initStatuses(),
+      initProjects()
+    ]);
   }
 
   componentDidUpdate = () => {
