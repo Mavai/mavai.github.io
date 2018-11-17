@@ -24,19 +24,14 @@ export const updateProject = (project, save=true) => async dispatch => {
 };
 
 export const updateTaskBoard = ( method, project, task, boardInfo) => {
-  switch (method) {
-    case 'add': {
-      return addTaskToBoard(project, task);
-    }
-    case 'remove': {
-      return removeTaskFromBoard(project, task);
-    }
-    case 'update': {
-      return updateTaskOnBoard(project, task, boardInfo);
-    }
-    default: {
-      return Creators.updateProject(project);
-    }
+  if (method === 'add') {
+    return addTaskToBoard(project, task);
+  } else if (method === 'remove') {
+    return removeTaskFromBoard(project, task);
+  } else if (method === 'update') {
+    return updateTaskOnBoard(project, task, boardInfo);
+  } else {
+    return Creators.updateProject(project);
   }
 };
 
