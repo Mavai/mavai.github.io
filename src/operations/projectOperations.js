@@ -29,7 +29,7 @@ export const addTaskToBoard = (project, task) => async dispatch => {
     [task.status.id]: [ ...project.taskBoard[task.status.id], task.id ]
   };
   const updatedProject = await projectService.update({ ...project, taskBoard });
-  dispatch(updateProject(updatedProject));
+  dispatch(Creators.updateProject(updatedProject));
 };
 
 export const removeTaskFromBoard = (project, task) => async dispatch => {
@@ -39,7 +39,7 @@ export const removeTaskFromBoard = (project, task) => async dispatch => {
       .filter(taskId => taskId !== task.id)
   };
   const updatedProject = await projectService.update({ ...project, taskBoard });
-  dispatch(updateProject(updatedProject));
+  dispatch(Creators.updateProject(updatedProject));
 };
 
 export const updateTaskOnBoard = (project, task, boardInfo) => async dispatch => {
@@ -47,9 +47,9 @@ export const updateTaskOnBoard = (project, task, boardInfo) => async dispatch =>
     ...project,
     taskBoard: calculateTaskBoard(project.taskBoard, task, boardInfo)
   };
-  dispatch(updateProject(updatedProject, false));
+  dispatch(Creators.updateProject(updatedProject, false));
   updatedProject = await projectService.update(updatedProject);
-  dispatch(updateProject(updatedProject));
+  dispatch(Creators.updateProject(updatedProject));
 };
 
 /**
