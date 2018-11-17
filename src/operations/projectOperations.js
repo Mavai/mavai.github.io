@@ -34,7 +34,9 @@ export const updateTaskBoard = ( method, project, task, boardInfo) => {
     case 'update': {
       return updateTaskOnBoard(project, task, boardInfo);
     }
-    default: return Creators.updateProject(project);
+    default: {
+      return Creators.updateProject(project);
+    }
   }
 };
 
