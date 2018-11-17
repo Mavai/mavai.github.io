@@ -17,7 +17,12 @@ const getAll = () => {
   return Promise.resolve(projects);
 };
 
+const update = (project) => {
+  return Promise.resolve({ ...project, saved: true });
+};
+
 export default {
   projects,
-  getAll
+  getAll,
+  update
 };

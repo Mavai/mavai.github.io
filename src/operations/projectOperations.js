@@ -34,7 +34,7 @@ export const updateTaskBoard = ( method, project, task, boardInfo) => {
     case 'update': {
       return updateTaskOnBoard(project, task, boardInfo);
     }
-    default: return;
+    default: return Creators.updateProject(project);
   }
 };
 
@@ -75,7 +75,7 @@ const updateTaskOnBoard = (project, task, boardInfo) => async dispatch => {
  * @param {string} boardInfo.oldStatus Id of the orevious status
  * @param {string} boardInfo.newStatus Id of the new status
  * @param {number} boardInfo.sourceIndex Index in the previous column
- * @param {number} boardInfodestinationIndex Index in the new column
+ * @param {number} boardInfo.destinationIndex Index in the new column
  */
 const calculateTaskBoard = (taskBoard, task, boardInfo) => {
   const { oldStatus, newStatus, sourceIndex, destinationIndex } = boardInfo;
