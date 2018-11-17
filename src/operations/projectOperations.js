@@ -23,19 +23,7 @@ export const updateProject = (project, save=true) => async dispatch => {
   dispatch(Creators.updateProject(updatedProject));
 };
 
-export const updateTaskBoard = ( method, project, task, boardInfo) => {
-  if (method === 'add') {
-    return addTaskToBoard(project, task);
-  } else if (method === 'remove') {
-    return removeTaskFromBoard(project, task);
-  } else if (method === 'update') {
-    return updateTaskOnBoard(project, task, boardInfo);
-  } else {
-    return Creators.updateProject(project);
-  }
-};
-
-const addTaskToBoard = (project, task) => async dispatch => {
+export const addTaskToBoard = (project, task) => async dispatch => {
   const taskBoard = {
     ...project.taskBoard,
     [task.status.id]: [ ...project.taskBoard[task.status.id], task.id ]
@@ -44,7 +32,7 @@ const addTaskToBoard = (project, task) => async dispatch => {
   dispatch(updateProject(updatedProject));
 };
 
-const removeTaskFromBoard = (project, task) => async dispatch => {
+export const removeTaskFromBoard = (project, task) => async dispatch => {
   const taskBoard = {
     ...project.taskBoard,
     [task.status.id]: project.taskBoard[task.status.id]
@@ -54,7 +42,7 @@ const removeTaskFromBoard = (project, task) => async dispatch => {
   dispatch(updateProject(updatedProject));
 };
 
-const updateTaskOnBoard = (project, task, boardInfo) => async dispatch => {
+export const updateTaskOnBoard = (project, task, boardInfo) => async dispatch => {
   let updatedProject = {
     ...project,
     taskBoard: calculateTaskBoard(project.taskBoard, task, boardInfo)

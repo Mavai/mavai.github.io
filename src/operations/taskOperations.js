@@ -1,5 +1,5 @@
 import taskService from '../services/tasks';
-import { updateTaskBoard } from '../operations/projectOperations';
+import { addTaskToBoard, removeTaskFromBoard, updateTaskOnBoard } from '../operations/projectOperations';
 import { selectCurrentProject } from '../store';
 import Creators from '../actions/taskActions';
 
@@ -26,7 +26,7 @@ export const createTask = (newTask) => {
       project: selectedProject.id
     });
     dispatch(Creators.createTask(task));
-    dispatch(updateTaskBoard('add', selectedProject, task));
+    dispatch(addTaskToBoard(selectedProject, task));
   };
 };
 
@@ -39,7 +39,7 @@ export const updateTask = (updatedTask, save=true, boardInfo) => async (dispatch
   dispatch(Creators.updateTask(task));
   if (boardInfo) {
     const selectedProject = selectCurrentProject(getState());
-    dispatch(updateTaskBoard('update', selectedProject, task, boardInfo));
+    dispatch(updateTaskOnBoard(selectedProject, task, boardInfo));
   }
 };
 
@@ -50,7 +50,7 @@ export const updateTask = (updatedTask, save=true, boardInfo) => async (dispatch
 export const changeTaskStatus = (task, boardInfo) => async (dispatch, getState) => {
   dispatch(updateTask(task));
   const selectedProject = selectCurrentProject(getState());
-  dispatch(updateTaskBoard('update', selectedProject, task, boardInfo));
+  dispatch(updateTaskOnBoard(selectedProject, task, boardInfo));
 };
 
 /**
@@ -62,6 +62,6 @@ export const removeTask = (task) => {
     const selectedProject = selectCurrentProject(getState());
     await taskService.remove(task);
     dispatch(Creators.deleteTask(task));
-    updateTaskBoard('remove', selectedProject, task);
+    removeTaskFromBoard(selectedProject, task);
   };
 };

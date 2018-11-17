@@ -78,7 +78,7 @@ describe('Project operations', () => {
     const expectedActions = [
       { type: Types.UPDATE_PROJECT, project: updateProject }
     ];
-    await store.dispatch(Operations.updateTaskBoard('add', project, task));
+    await store.dispatch(Operations.addTaskToBoard(project, task));
     expect(store.getActions()).toEqual(expectedActions);
   });
 
@@ -99,7 +99,7 @@ describe('Project operations', () => {
     const expectedActions = [
       { type: Types.UPDATE_PROJECT, project: updateProject }
     ];
-    await store.dispatch(Operations.updateTaskBoard('remove', project, task));
+    await store.dispatch(Operations.removeTaskFromBoard(project, task));
     expect(store.getActions()).toEqual(expectedActions);
   });
 
@@ -127,7 +127,7 @@ describe('Project operations', () => {
       { type: Types.UPDATE_PROJECT, project: {  ...project, taskBoard: updateTaskBoard } },
       { type: Types.UPDATE_PROJECT, project: updateProject }
     ];
-    await store.dispatch(Operations.updateTaskBoard('update', project, task, boardInfo));
+    await store.dispatch(Operations.updateTaskOnBoard(project, task, boardInfo));
     expect(store.getActions()).toEqual(expectedActions);
   });
 
@@ -155,23 +155,7 @@ describe('Project operations', () => {
       { type: Types.UPDATE_PROJECT, project: {  ...project, taskBoard: updateTaskBoard } },
       { type: Types.UPDATE_PROJECT, project: updateProject }
     ];
-    await store.dispatch(Operations.updateTaskBoard('update', project, task, boardInfo));
-    expect(store.getActions()).toEqual(expectedActions);
-  });
-
-  it('updateTaskBoard does nothing with invalid method', async () => {
-    const task = { id: '3' };
-    const taskBoard = {
-      '1': [ '1', '2' ],
-      '2': [ '3' ]
-    };
-    const project = {
-      taskBoard
-    };
-    const expectedActions = [
-      { type: Types.UPDATE_PROJECT, project }
-    ];
-    await store.dispatch(Operations.updateTaskBoard('invalid', project, task));
+    await store.dispatch(Operations.updateTaskOnBoard(project, task, boardInfo));
     expect(store.getActions()).toEqual(expectedActions);
   });
 });
