@@ -18,16 +18,14 @@ export const initTasks = (id) => {
  * Create a new task and update current project's taskboard.
  * @param {object} newTask Task to create
  */
-export const createTask = (newTask) => {
-  return async (dispatch, getState) => {
-    const selectedProject = selectCurrentProject(getState());
-    const task = await taskService.createNew({
-      ...newTask,
-      project: selectedProject.id
-    });
-    dispatch(Creators.createTask(task));
-    dispatch(addTaskToBoard(selectedProject, task));
-  };
+export const createTask = (newTask) => async (dispatch, getState) => {
+  const selectedProject = selectCurrentProject(getState());
+  const task = await taskService.createNew({
+    ...newTask,
+    project: selectedProject.id
+  });
+  dispatch(Creators.createTask(task)),
+  dispatch(addTaskToBoard(selectedProject, task));
 };
 
 /**

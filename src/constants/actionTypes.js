@@ -1,3 +1,8 @@
 export const INIT_PROJECTS = 'INIT_PROJECTS';
 export const CHANGE_SELECTED = 'CHANGE_SELECTED';
 export const UPDATE_PROJECT = 'UPDATE_PROJECT';
+
+export const INIT_STAUSES = 'INIT_STATUSES';
+
+export const INIT_TASKS = 'INIT_TASKS';
+export const CREATE_TASK = 'CREATE_TASK';
