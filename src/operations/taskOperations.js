@@ -24,8 +24,10 @@ export const createTask = (newTask) => async (dispatch, getState) => {
     ...newTask,
     project: selectedProject.id
   });
-  dispatch(Creators.createTask(task)),
-  dispatch(addTaskToBoard(selectedProject, task));
+  return Promise.all([
+    dispatch(Creators.createTask(task)),
+    dispatch(addTaskToBoard(selectedProject, task))
+  ]);
 };
 
 /**
