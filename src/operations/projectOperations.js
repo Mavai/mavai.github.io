@@ -49,7 +49,6 @@ export const updateTaskOnBoard = (project, task, boardInfo) => async dispatch =>
   };
   dispatch(Creators.updateProject(updatedProject, false));
   updatedProject = await projectService.update(updatedProject);
-  dispatch(Creators.updateProject(updatedProject));
 };
 
 /**

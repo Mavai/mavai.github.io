@@ -124,10 +124,8 @@ describe('Project operations', () => {
       '1': [ '1', '3', '2' ],
       '2': []
     };
-    const updateProject = { ...project, taskBoard: updateTaskBoard, saved: true };
     const expectedActions = [
-      { type: Types.UPDATE_PROJECT, project: {  ...project, taskBoard: updateTaskBoard } },
-      { type: Types.UPDATE_PROJECT, project: updateProject }
+      { type: Types.UPDATE_PROJECT, project: {  ...project, taskBoard: updateTaskBoard } }
     ];
     return store.dispatch(Operations.updateTaskOnBoard(project, task, boardInfo)).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
@@ -153,10 +151,8 @@ describe('Project operations', () => {
       '1': [ '2', '1' ],
       '2': [ '3' ]
     };
-    const updateProject = { ...project, taskBoard: updateTaskBoard, saved: true };
     const expectedActions = [
       { type: Types.UPDATE_PROJECT, project: {  ...project, taskBoard: updateTaskBoard } },
-      { type: Types.UPDATE_PROJECT, project: updateProject }
     ];
     return store.dispatch(Operations.updateTaskOnBoard(project, task, boardInfo)).then(() => {
       expect(store.getActions()).toEqual(expectedActions);

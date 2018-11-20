@@ -24,10 +24,8 @@ export const createTask = (newTask) => async (dispatch, getState) => {
     ...newTask,
     project: selectedProject.id
   });
-  return Promise.all([
-    dispatch(Creators.createTask(task)),
-    dispatch(addTaskToBoard(selectedProject, task))
-  ]);
+  dispatch(Creators.createTask(task));
+  dispatch(addTaskToBoard(selectedProject, task));
 };
 
 /**
@@ -36,13 +34,11 @@ export const createTask = (newTask) => async (dispatch, getState) => {
  */
 export const updateTask = (updatedTask, save=true, boardInfo) => async (dispatch, getState) => {
   const task = save ? await taskService.update(updatedTask) : updatedTask;
-  let promises = [];
-  promises.push(dispatch(Creators.updateTask(task)));
+  dispatch(Creators.updateTask(task));
   if (boardInfo) {
     const selectedProject = selectCurrentProject(getState());
-    promises.push(dispatch(updateTaskOnBoard(selectedProject, task, boardInfo)));
+    dispatch(updateTaskOnBoard(selectedProject, task, boardInfo));
   }
-  return Promise.all(promises);
 };
 
 /**
@@ -51,10 +47,8 @@ export const updateTask = (updatedTask, save=true, boardInfo) => async (dispatch
  */
 export const changeTaskStatus = (task, boardInfo) => async (dispatch, getState) => {
   const selectedProject = selectCurrentProject(getState());
-  return Promise.all([
-    dispatch(updateTask(task)),
-    dispatch(updateTaskOnBoard(selectedProject, task, boardInfo))
-  ]);
+  dispatch(updateTask(task));
+  dispatch(updateTaskOnBoard(selectedProject, task, boardInfo));
 };
 
 /**
@@ -65,9 +59,7 @@ export const removeTask = (task) => {
   return async (dispatch, getState) => {
     const selectedProject = selectCurrentProject(getState());
     await taskService.remove(task);
-    return Promise.all([
-      dispatch(Creators.deleteTask(task)),
-      dispatch(removeTaskFromBoard(selectedProject, task))
-    ]);
+    dispatch(Creators.deleteTask(task));
+    dispatch(removeTaskFromBoard(selectedProject, task));
   };
 };

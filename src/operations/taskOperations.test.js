@@ -5,6 +5,7 @@ jest.mock('../services/tasks');
 import taskService from '../services/tasks';
 jest.mock('../services/projects');
 import * as Operations from '../operations/taskOperations';
+import { getAction } from '../testUtils';
 
 const middlewares = [ thunk ];
 const mockStore = configureMockStore(middlewares);
@@ -35,12 +36,12 @@ describe('Task operations', () => {
       '2': [ '3', '4' ]
     };
     const updatedProject = { ...project, taskBoard: updateTaskBoard, saved: true };
-    const expectedActions = [
-      { type: Types.CREATE_TASK, task: { ...task, project: project.id, created: true } },
-      { type: Types.UPDATE_PROJECT, project: updatedProject }
-    ];
     await store.dispatch(Operations.createTask(task));
-    expect(store.getActions()).toEqual(expectedActions);
+    expect(store.getActions()).toHaveLength(2);
+    expect(await getAction(store, Types.CREATE_TASK))
+      .toEqual({ type: Types.CREATE_TASK, task: { ...task, project: project.id, created: true } });
+    expect(await getAction(store, Types.UPDATE_PROJECT))
+      .toEqual({ type: Types.UPDATE_PROJECT, project: updatedProject });
   });
 
   it('removeTask works and updates taskboard of selected project', async () => {
@@ -50,12 +51,12 @@ describe('Task operations', () => {
       '2': []
     };
     const updatedProject = { ...project, taskBoard: updateTaskBoard, saved: true };
-    const expectedActions = [
-      { type: Types.DELETE_TASK, task },
-      { type: Types.UPDATE_PROJECT, project: updatedProject }
-    ];
     await store.dispatch(Operations.removeTask(task));
-    expect(store.getActions()).toEqual(expectedActions);
+    expect(store.getActions()).toHaveLength(2);
+    expect(await getAction(store, Types.DELETE_TASK))
+      .toEqual({ type: Types.DELETE_TASK, task });
+    expect(await getAction(store, Types.UPDATE_PROJECT))
+      .toEqual({ type: Types.UPDATE_PROJECT, project: updatedProject });
   });
 
   it('updateTask does not save changes to db when save=false', async () => {
@@ -89,13 +90,12 @@ describe('Task operations', () => {
       '2': []
     };
     const updatedProject = { ...project, taskBoard: updateTaskBoard };
-    const expectedActions = [
-      { type: Types.UPDATE_TASK, task: { ...task, saved: true } },
-      { type: Types.UPDATE_PROJECT, project: updatedProject },
-      { type: Types.UPDATE_PROJECT, project: { ...updatedProject, saved: true } }
-    ];
     await store.dispatch(Operations.updateTask(task, true, boardInfo));
-    expect(store.getActions()).toEqual(expectedActions);
+    expect(store.getActions()).toHaveLength(2);
+    expect(await getAction(store, Types.UPDATE_PROJECT))
+      .toEqual({ type: Types.UPDATE_PROJECT, project: updatedProject });
+    expect(await getAction(store, Types.UPDATE_TASK))
+      .toEqual({ type: Types.UPDATE_TASK, task: { ...task, saved: true } });
   });
 
   it('updateTask works and updates taskboard with boardInfo', async () => {
@@ -111,12 +111,11 @@ describe('Task operations', () => {
       '2': []
     };
     const updatedProject = { ...project, taskBoard: updateTaskBoard };
-    const expectedActions = [
-      { type: Types.UPDATE_PROJECT, project: updatedProject },
-      { type: Types.UPDATE_TASK, task: { ...task, saved: true } },
-      { type: Types.UPDATE_PROJECT, project: { ...updatedProject, saved: true } }
-    ];
     await store.dispatch(Operations.changeTaskStatus(task, boardInfo));
-    expect(store.getActions()).toEqual(expectedActions);
+    expect(store.getActions()).toHaveLength(2);
+    expect(await getAction(store, Types.UPDATE_PROJECT))
+      .toEqual({ type: Types.UPDATE_PROJECT, project: updatedProject });
+    expect(await getAction(store, Types.UPDATE_TASK))
+      .toEqual({ type: Types.UPDATE_TASK, task: { ...task, saved: true } });
   });
 });
