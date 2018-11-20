@@ -34,12 +34,89 @@ describe('Task operations', () => {
       '1': [ '1', '2' ],
       '2': [ '3', '4' ]
     };
-    const updateProject = { ...project, taskBoard: updateTaskBoard, saved: true };
+    const updatedProject = { ...project, taskBoard: updateTaskBoard, saved: true };
     const expectedActions = [
       { type: Types.CREATE_TASK, task: { ...task, project: project.id, created: true } },
-      { type: Types.UPDATE_PROJECT, project: updateProject }
+      { type: Types.UPDATE_PROJECT, project: updatedProject }
     ];
     await store.dispatch(Operations.createTask(task));
+    expect(store.getActions()).toEqual(expectedActions);
+  });
+
+  it('removeTask works and updates taskboard of selected project', async () => {
+    const task = { id: '3', status: { id: '2' } };
+    const updateTaskBoard = {
+      '1': [ '1', '2' ],
+      '2': []
+    };
+    const updatedProject = { ...project, taskBoard: updateTaskBoard, saved: true };
+    const expectedActions = [
+      { type: Types.DELETE_TASK, task },
+      { type: Types.UPDATE_PROJECT, project: updatedProject }
+    ];
+    await store.dispatch(Operations.removeTask(task));
+    expect(store.getActions()).toEqual(expectedActions);
+  });
+
+  it('updateTask does not save changes to db when save=false', async () => {
+    const task = { id: '3', status: { id: '2' } };
+    const expectedActions = [
+      { type: Types.UPDATE_TASK, task }
+    ];
+    await store.dispatch(Operations.updateTask(task, false));
+    expect(store.getActions()).toEqual(expectedActions);
+  });
+
+  it('updateTask saves changes to db by default', async () => {
+    const task = { id: '3', status: { id: '2' } };
+    const expectedActions = [
+      { type: Types.UPDATE_TASK, task: { ...task, saved: true } }
+    ];
+    await store.dispatch(Operations.updateTask(task));
+    expect(store.getActions()).toEqual(expectedActions);
+  });
+
+  it('updateTask works and updates taskboard with boardInfo', async () => {
+    const task = { id: '3' };
+    const boardInfo = {
+      oldStatus: '2',
+      newStatus: '1',
+      sourceIndex: 0,
+      destinationIndex: Infinity
+    };
+    const updateTaskBoard = {
+      '1': [ '1', '2', '3' ],
+      '2': []
+    };
+    const updatedProject = { ...project, taskBoard: updateTaskBoard };
+    const expectedActions = [
+      { type: Types.UPDATE_TASK, task: { ...task, saved: true } },
+      { type: Types.UPDATE_PROJECT, project: updatedProject },
+      { type: Types.UPDATE_PROJECT, project: { ...updatedProject, saved: true } }
+    ];
+    await store.dispatch(Operations.updateTask(task, true, boardInfo));
+    expect(store.getActions()).toEqual(expectedActions);
+  });
+
+  it('updateTask works and updates taskboard with boardInfo', async () => {
+    const task = { id: '3' };
+    const boardInfo = {
+      oldStatus: '2',
+      newStatus: '1',
+      sourceIndex: 0,
+      destinationIndex: 1
+    };
+    const updateTaskBoard = {
+      '1': [ '1', '3', '2' ],
+      '2': []
+    };
+    const updatedProject = { ...project, taskBoard: updateTaskBoard };
+    const expectedActions = [
+      { type: Types.UPDATE_PROJECT, project: updatedProject },
+      { type: Types.UPDATE_TASK, task: { ...task, saved: true } },
+      { type: Types.UPDATE_PROJECT, project: { ...updatedProject, saved: true } }
+    ];
+    await store.dispatch(Operations.changeTaskStatus(task, boardInfo));
     expect(store.getActions()).toEqual(expectedActions);
   });
 });

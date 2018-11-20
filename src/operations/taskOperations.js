@@ -36,11 +36,13 @@ export const createTask = (newTask) => async (dispatch, getState) => {
  */
 export const updateTask = (updatedTask, save=true, boardInfo) => async (dispatch, getState) => {
   const task = save ? await taskService.update(updatedTask) : updatedTask;
-  dispatch(Creators.updateTask(task));
+  let promises = [];
+  promises.push(dispatch(Creators.updateTask(task)));
   if (boardInfo) {
     const selectedProject = selectCurrentProject(getState());
-    dispatch(updateTaskOnBoard(selectedProject, task, boardInfo));
+    promises.push(dispatch(updateTaskOnBoard(selectedProject, task, boardInfo)));
   }
+  return Promise.all(promises);
 };
 
 /**
@@ -48,9 +50,11 @@ export const updateTask = (updatedTask, save=true, boardInfo) => async (dispatch
  * @param {object} task Task to update
  */
 export const changeTaskStatus = (task, boardInfo) => async (dispatch, getState) => {
-  dispatch(updateTask(task));
   const selectedProject = selectCurrentProject(getState());
-  dispatch(updateTaskOnBoard(selectedProject, task, boardInfo));
+  return Promise.all([
+    dispatch(updateTask(task)),
+    dispatch(updateTaskOnBoard(selectedProject, task, boardInfo))
+  ]);
 };
 
 /**
@@ -61,7 +65,9 @@ export const removeTask = (task) => {
   return async (dispatch, getState) => {
     const selectedProject = selectCurrentProject(getState());
     await taskService.remove(task);
-    dispatch(Creators.deleteTask(task));
-    removeTaskFromBoard(selectedProject, task);
+    return Promise.all([
+      dispatch(Creators.deleteTask(task)),
+      dispatch(removeTaskFromBoard(selectedProject, task))
+    ]);
   };
 };

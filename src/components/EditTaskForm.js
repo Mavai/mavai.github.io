@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { updateTask } from '../operations/taskOperations';
+import { updateTask, removeTask } from '../operations/taskOperations';
 import TaskForm from './TaskForm';
 
 export class EditTaskForm extends React.PureComponent {
@@ -23,15 +23,24 @@ export class EditTaskForm extends React.PureComponent {
     return () => updateTask({ ...task, editMode: false }, false);
   }
 
+  removeTask = () => {
+    const { task, removeTask } = this.props;
+    removeTask(task);
+  }
+
   render() {
     const { task } = this.props;
     return (
-      <TaskForm onSubmit={this.onSubmit} onCancel={this.stopTaskEdit(task)} initialValues={task} />
+      <TaskForm
+        onSubmit={this.onSubmit}
+        onCancel={this.stopTaskEdit(task)}
+        onDelete={this.removeTask}
+        initialValues={task} />
     );
   }
 }
 
 export default connect(
   null,
-  { updateTask }
+  { updateTask, removeTask }
 )(EditTaskForm);

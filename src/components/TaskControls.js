@@ -1,13 +1,14 @@
 import React from 'react';
-import { Icon } from 'semantic-ui-react';
+import { Icon, Button } from 'semantic-ui-react';
 
 const TaskControls = props => {
 
-  const { removeTask, editTask } = props;
+  const { editTask } = props;
   return (
     <div style={{ marginTop: 5 }}>
-      <Icon link onClick={removeTask} color='red' inverted circular name='delete'></Icon>
-      <Icon link onClick={editTask} color='blue' inverted circular name='edit'></Icon>
+      <Button icon basic size='mini' onClick={editTask} style={{ float: 'right' }}>
+        <Icon size='large' name='ellipsis horizontal'></Icon>
+      </Button>
     </div>
   );
 };

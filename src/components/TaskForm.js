@@ -7,11 +7,6 @@ import { selectStatuses } from '../store';
 
 export class TaskForm extends React.PureComponent {
 
-  onCancel = (e) => {
-    e.preventDefault();
-    this.props.onCancel();
-  }
-
   getStatusDropdown = statuses => {
     return statuses.map(status => (
       {
@@ -23,7 +18,7 @@ export class TaskForm extends React.PureComponent {
   }
 
   render() {
-    const { statuses, handleChange, setFieldValue, handleSubmit, onCancel, values } = this.props;
+    const { statuses, handleChange, setFieldValue, handleSubmit, onCancel, onDelete, values } = this.props;
     return (
       <Form onSubmit={handleSubmit}>
         <Form.Input
@@ -50,9 +45,11 @@ export class TaskForm extends React.PureComponent {
           placeholder='Status'
           defaultValue={values.status}
         />
-        <Button type='submit'>Submit</Button>
+        <Button type='submit' color='blue'>Submit</Button>
         { onCancel &&
-        <Button className='cancel' onClick={this.onCancel}>Cancel</Button> }
+        <Button type='button' className='cancel' onClick={onCancel}>Cancel</Button> }
+        { onDelete &&
+        <Button type='button' color='red' className='delete' style={{ float: 'right' }} onClick={onDelete}>Delete</Button> }
       </Form>
     );
   }
