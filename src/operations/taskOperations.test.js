@@ -37,7 +37,6 @@ describe('Task operations', () => {
     };
     const updatedProject = { ...project, taskBoard: updateTaskBoard, saved: true };
     await store.dispatch(Operations.createTask(task));
-    expect(store.getActions()).toHaveLength(2);
     expect(await getAction(store, Types.CREATE_TASK))
       .toEqual({ type: Types.CREATE_TASK, task: { ...task, project: project.id, created: true } });
     expect(await getAction(store, Types.UPDATE_PROJECT))
@@ -52,7 +51,6 @@ describe('Task operations', () => {
     };
     const updatedProject = { ...project, taskBoard: updateTaskBoard, saved: true };
     await store.dispatch(Operations.removeTask(task));
-    expect(store.getActions()).toHaveLength(2);
     expect(await getAction(store, Types.DELETE_TASK))
       .toEqual({ type: Types.DELETE_TASK, task });
     expect(await getAction(store, Types.UPDATE_PROJECT))
@@ -91,7 +89,6 @@ describe('Task operations', () => {
     };
     const updatedProject = { ...project, taskBoard: updateTaskBoard };
     await store.dispatch(Operations.updateTask(task, true, boardInfo));
-    expect(store.getActions()).toHaveLength(2);
     expect(await getAction(store, Types.UPDATE_PROJECT))
       .toEqual({ type: Types.UPDATE_PROJECT, project: updatedProject });
     expect(await getAction(store, Types.UPDATE_TASK))
@@ -112,7 +109,6 @@ describe('Task operations', () => {
     };
     const updatedProject = { ...project, taskBoard: updateTaskBoard };
     await store.dispatch(Operations.changeTaskStatus(task, boardInfo));
-    expect(store.getActions()).toHaveLength(2);
     expect(await getAction(store, Types.UPDATE_PROJECT))
       .toEqual({ type: Types.UPDATE_PROJECT, project: updatedProject });
     expect(await getAction(store, Types.UPDATE_TASK))
