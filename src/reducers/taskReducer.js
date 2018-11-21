@@ -32,4 +32,13 @@ export const selectTasksAsMap = tasks => {
     : null;
 };
 
+export const selectColumnTasks = (tasks, column, filterOptions) => {
+  if (!tasks) return [];
+  let columnTasks = column.map(taskId => tasks[taskId]);
+  if (filterOptions.filter) {
+    columnTasks = columnTasks.filter(task => task.name.includes(filterOptions.filter));
+  }
+  return columnTasks;
+};
+
 export default taskReducer;

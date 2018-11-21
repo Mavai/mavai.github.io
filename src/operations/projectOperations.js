@@ -1,6 +1,7 @@
 import projectService from '../services/projects';
 import move from 'lodash-move';
 import Creators from '../actions/projectActions';
+import { initTasks } from '../operations/taskOperations';
 
 export const initProjects = () => {
   const selected = JSON.parse(localStorage.getItem('selectedProject'));
@@ -9,13 +10,15 @@ export const initProjects = () => {
     dispatch(Creators.initProjects(projects));
     if (selected) {
       dispatch(Creators.changeSelected(selected));
+      dispatch(initTasks(selected));
     }
   };
 };
 
-export const selectProject = (project) => {
+export const selectProject = (project) => async dispatch => {
   localStorage.setItem('selectedProject', JSON.stringify(project));
-  return Creators.changeSelected(project);
+  dispatch(Creators.changeSelected(project));
+  dispatch(initTasks(project));
 };
 
 export const updateProject = (project, save=true) => async dispatch => {

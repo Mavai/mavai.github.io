@@ -9,7 +9,6 @@ import { initTasks } from './operations/taskOperations';
 import { initStatuses } from './operations/statusOperations';
 import { initProjects } from './operations/projectOperations';
 import NewTaskForm from './components/NewTaskForm';
-import { selectCurrentProject } from './store';
 
 export class App extends PureComponent {
 
@@ -19,13 +18,6 @@ export class App extends PureComponent {
       initStatuses(),
       initProjects()
     ]);
-  }
-
-  componentDidUpdate = () => {
-    const { selectedProject } = this.props;
-    if (selectedProject) {
-      this.props.initTasks(selectedProject.id);
-    }
   }
 
   render() {
@@ -55,7 +47,7 @@ export class App extends PureComponent {
 
 export default connect(state =>
   ({
-    selectedProject: selectCurrentProject(state)
+    selectedProject: state.projects.selected
   }),
 { initTasks, initStatuses, initProjects }
 )(App);

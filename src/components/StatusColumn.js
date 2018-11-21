@@ -4,16 +4,18 @@ import Task from './Task';
 import { connect } from 'react-redux';
 import { removeTask, updateTask } from '../operations/taskOperations';
 import { selectCurrentProject } from '../store';
+import { selectColumnTasks } from '../reducers/taskReducer';
 import EditTaskModal from './EditTaskModal';
 
 export class StatusColumn extends React.PureComponent {
   render () {
-    const { tasks, removeTask, updateTask } = this.props;
+    const { tasks, column, filter, removeTask, updateTask } = this.props;
+    const columnTasks = selectColumnTasks(tasks, column, { filter });
 
     return (
       <div>
         <div>
-          {tasks.map((task, index) =>
+          {columnTasks.map((task, index) =>
             task &&
           <div className='draggable-task' key={task.id}>
             <Draggable key={task.id} draggableId={task.id} index={index}>
@@ -44,7 +46,8 @@ StatusColumn.defaultProps = {
 
 export default connect(state =>
   ({
-    selectedProject: selectCurrentProject(state)
+    selectedProject: selectCurrentProject(state),
+    filter: state.taskBoard.filter
   }),
 { removeTask, updateTask }
 )(StatusColumn);

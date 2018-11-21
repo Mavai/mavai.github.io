@@ -19,39 +19,6 @@ describe('<App />', () => {
     expect(mockInitProjects.mock.calls).toHaveLength(1);
   });
 
-  it('componentDidUpdate initializes tasks when project is selected', () => {
-    const mockInitStatuses = jest.fn();
-    const mockInitProjects = jest.fn();
-    const mockInitTasks = jest.fn();
-    const project = { id: '1' };
-    const wrapper = shallow(
-      <App
-        initStatuses={mockInitStatuses}
-        initProjects={mockInitProjects}
-        initTasks={mockInitTasks}
-        selectedProject={project}
-      />
-    );
-    wrapper.instance().componentDidUpdate();
-    expect(mockInitTasks.mock.calls).toHaveLength(1);
-    expect(mockInitTasks.mock.calls[0][0]).toEqual(project.id);
-  });
-
-  it('componentDidUpdate does not initialize tasks when project is not selected', () => {
-    const mockInitStatuses = jest.fn();
-    const mockInitProjects = jest.fn();
-    const mockInitTasks = jest.fn();
-    const wrapper = shallow(
-      <App
-        initStatuses={mockInitStatuses}
-        initProjects={mockInitProjects}
-        initTasks={mockInitTasks}
-      />
-    );
-    wrapper.instance().componentDidUpdate();
-    expect(mockInitTasks.mock.calls).toHaveLength(0);
-  });
-
   it('renders navbar with correct links', () => {
     const mockInitStatuses = jest.fn();
     const mockInitProjects = jest.fn();

@@ -58,7 +58,7 @@ describe('<TaskForm />', () => {
     expect(mockSubmit.mock.calls.length).toEqual(1);
   });
 
-  it('onCancel is called when canceö is pressed', () => {
+  it('onCancel is called when cancel is pressed', () => {
     wrapper.find('.cancel').first().simulate('click');
     expect(mockCancel.mock.calls.length).toEqual(1);
   });

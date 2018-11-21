@@ -8,15 +8,17 @@ describe('<StatusColumn />', () => {
   let mockRemove = jest.fn();
   let mockUpdate = jest.fn();
   const status = { id: 1, name: 'Finished' };
-  const tasks = [
-    { id: 1, name: 'Test task 1' },
-    { id: 1, name: 'Test task 2' }
-  ];
+  const tasks = {
+    '1': { id: 1, name: 'Test task 1' },
+    '2': { id: 1, name: 'Test task 2' }
+  };
+  const column = [ '1', '2' ];
   beforeAll(() => {
     wrapper = shallow(
       <StatusColumn
         status={status}
         tasks={tasks}
+        column={column}
         removeTask={mockRemove}
         updateTask={mockUpdate}
       />
@@ -24,7 +26,7 @@ describe('<StatusColumn />', () => {
   });
 
   it('renders all tasks', () => {
-    expect(wrapper.find('.draggable-task')).toHaveLength(tasks.length);
+    expect(wrapper.find('.draggable-task')).toHaveLength(column.length);
   });
 
   it('renders tasks with correct props', () => {

@@ -2,13 +2,15 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 import taskReducer, * as FromTasks from './reducers/taskReducer';
 import statusReducer from './reducers/statusReducer';
 import projectReducer, * as FromProjects from './reducers/projectReducer';
+import taskBoardReducer from './reducers/taskBoardReducer';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
 
 const reducer = combineReducers({
   tasks: taskReducer,
   statuses: statusReducer,
-  projects: projectReducer
+  projects: projectReducer,
+  taskBoard: taskBoardReducer
 });
 
 const store = createStore(

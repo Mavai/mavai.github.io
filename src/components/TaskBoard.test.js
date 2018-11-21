@@ -45,10 +45,10 @@ describe('<TaskBoard />', () => {
     );
     const droppable = wrapper.find('Connect(Droppable)').first();
     const statusColumn = shallow(droppable.prop('children')({})).find(StatusColumn);
-    const columnTasks = [ tasks['1'], tasks['2'] ];
     expect(statusColumn.prop('status')).toEqual(statuses[0]);
-    expect(statusColumn.prop('tasks')).toHaveLength(2);
-    expect(statusColumn.prop('tasks')).toEqual(columnTasks);
+    expect(statusColumn.prop('tasks')).toEqual(tasks);
+    expect(statusColumn.prop('column')).toHaveLength(2);
+    expect(statusColumn.prop('column')).toEqual(taskBoard['1']);
   });
 
   it('renders StatusColmn with correct props when it has no tasks', () => {
@@ -63,7 +63,7 @@ describe('<TaskBoard />', () => {
     const droppable = wrapper.find('Connect(Droppable)').last();
     const statusColumn = shallow(droppable.prop('children')({})).find(StatusColumn);
     expect(statusColumn.prop('status')).toEqual(statuses[1]);
-    expect(statusColumn.prop('tasks')).toHaveLength(0);
+    expect(statusColumn.prop('column')).toHaveLength(0);
   });
 
   it('onDragEnd does nothing without destination', () => {
