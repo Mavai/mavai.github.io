@@ -9,8 +9,8 @@ import EditTaskModal from './EditTaskModal';
 
 export class StatusColumn extends React.PureComponent {
   render () {
-    const { tasks, column, filter, removeTask, updateTask } = this.props;
-    const columnTasks = selectColumnTasks(tasks, column, { filter });
+    const { tasks, column, filter, sortBy, removeTask, updateTask } = this.props;
+    const columnTasks = selectColumnTasks(tasks, column, { filter, sortBy });
 
     return (
       <div>
@@ -47,7 +47,8 @@ StatusColumn.defaultProps = {
 export default connect(state =>
   ({
     selectedProject: selectCurrentProject(state),
-    filter: state.taskBoard.filter
+    filter: state.taskboard.filter,
+    sortBy: state.taskboard.sortBy
   }),
 { removeTask, updateTask }
 )(StatusColumn);

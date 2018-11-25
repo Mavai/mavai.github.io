@@ -1,13 +1,14 @@
 import projectService from '../services/projects';
-import move from 'lodash-move';
 import Creators from '../actions/projectActions';
 import { initTasks } from '../operations/taskOperations';
+import { initTaskboard } from '../operations/taskBoardOperations';
 
 export const initProjects = () => {
   const selected = JSON.parse(localStorage.getItem('selectedProject'));
   return async (dispatch) => {
     const projects = await projectService.getAll();
     dispatch(Creators.initProjects(projects));
+    dispatch(initTaskboard(projects[0].taskBoard));
     if (selected) {
       dispatch(Creators.changeSelected(selected));
       dispatch(initTasks(selected));
@@ -24,62 +25,4 @@ export const selectProject = (project) => async dispatch => {
 export const updateProject = (project, save=true) => async dispatch => {
   const updatedProject = save ? await projectService.update(project) : project;
   dispatch(Creators.updateProject(updatedProject));
-};
-
-export const addTaskToBoard = (project, task) => async dispatch => {
-  const taskBoard = {
-    ...project.taskBoard,
-    [task.status.id]: [ ...project.taskBoard[task.status.id], task.id ]
-  };
-  const updatedProject = await projectService.update({ ...project, taskBoard });
-  dispatch(Creators.updateProject(updatedProject));
-};
-
-export const removeTaskFromBoard = (project, task) => async dispatch => {
-  const taskBoard = {
-    ...project.taskBoard,
-    [task.status.id]: project.taskBoard[task.status.id]
-      .filter(taskId => taskId !== task.id)
-  };
-  const updatedProject = await projectService.update({ ...project, taskBoard });
-  dispatch(Creators.updateProject(updatedProject));
-};
-
-export const updateTaskOnBoard = (project, task, boardInfo) => async dispatch => {
-  let updatedProject = {
-    ...project,
-    taskBoard: calculateTaskBoard(project.taskBoard, task, boardInfo)
-  };
-  dispatch(Creators.updateProject(updatedProject, false));
-  updatedProject = await projectService.update(updatedProject);
-};
-
-/**
- * Calculates new taskboard when a taks's status is changed.
- * @param {object} taskBoard Current taskboard
- * @param {object} task Task to update
- * @param {object} boardInfo Information needed to calculate the new taskboad
- * @param {string} boardInfo.oldStatus Id of the orevious status
- * @param {string} boardInfo.newStatus Id of the new status
- * @param {number} boardInfo.sourceIndex Index in the previous column
- * @param {number} boardInfo.destinationIndex Index in the new column
- */
-const calculateTaskBoard = (taskBoard, task, boardInfo) => {
-  const { oldStatus, newStatus, sourceIndex, destinationIndex } = boardInfo;
-  if (oldStatus !== newStatus) {
-    return {
-      ...taskBoard,
-      [oldStatus]: taskBoard[oldStatus].filter((taskId) => taskId !== task.id),
-      [newStatus]: [
-        ...taskBoard[newStatus].slice(0, destinationIndex),
-        task.id,
-        ...taskBoard[newStatus].slice(destinationIndex)
-      ]
-    };
-  } else {
-    return {
-      ...taskBoard,
-      [oldStatus]: move(taskBoard[oldStatus], sourceIndex, destinationIndex)
-    };
-  }
 };

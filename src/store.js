@@ -10,7 +10,7 @@ const reducer = combineReducers({
   tasks: taskReducer,
   statuses: statusReducer,
   projects: projectReducer,
-  taskBoard: taskBoardReducer
+  taskboard: taskBoardReducer
 });
 
 const store = createStore(
@@ -45,14 +45,14 @@ export const selectCurrentProject = state => {
   return FromProjects.selectCurrentProject(all, selected);
 };
 
-export const selectCurrentTaskboard = state => {
-  const { all, selected } = state.projects;
-  return FromProjects.selectCurrentTaskboard(all, selected);
-};
-
 //Status selectors
 export const selectStatuses = state => {
   return state.statuses;
+};
+
+//Taskboard selectors
+export const selectCurrentTaskboard = state => {
+  return state.taskboard.board;
 };
 
 export default store;

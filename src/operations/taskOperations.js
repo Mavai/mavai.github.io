@@ -1,5 +1,5 @@
 import taskService from '../services/tasks';
-import { addTaskToBoard, removeTaskFromBoard, updateTaskOnBoard } from '../operations/projectOperations';
+import { addTaskToBoard, removeTaskFromBoard, updateTaskOnBoard } from '../operations/taskBoardOperations';
 import { selectCurrentProject } from '../store';
 import Creators from '../actions/taskActions';
 
@@ -45,10 +45,9 @@ export const updateTask = (updatedTask, save=true, boardInfo) => async (dispatch
  * Change status of a task and update current project's taskboard.
  * @param {object} task Task to update
  */
-export const changeTaskStatus = (task, boardInfo) => async (dispatch, getState) => {
-  const selectedProject = selectCurrentProject(getState());
+export const changeTaskStatus = (task, boardInfo) => async (dispatch) => {
   dispatch(updateTask(task));
-  dispatch(updateTaskOnBoard(selectedProject, task, boardInfo));
+  dispatch(updateTaskOnBoard(task, boardInfo));
 };
 
 /**

@@ -1,3 +1,5 @@
+import { sortBy } from 'lodash';
+
 const initialState = [];
 export const taskReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -37,6 +39,9 @@ export const selectColumnTasks = (tasks, column, filterOptions) => {
   let columnTasks = column.map(taskId => tasks[taskId]);
   if (filterOptions.filter) {
     columnTasks = columnTasks.filter(task => task.name.includes(filterOptions.filter));
+  }
+  if (filterOptions.sortBy) {
+    columnTasks = sortBy(columnTasks, [ filterOptions.sortBy ]);
   }
   return columnTasks;
 };
