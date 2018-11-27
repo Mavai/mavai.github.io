@@ -1,19 +1,19 @@
-const initTasks = (tasks) => ({
+const initTasks = tasks => ({
   type: 'INIT_TASKS',
   tasks
 });
 
-const createTask = (task) => ({
+const createTask = task => ({
   type: 'CREATE_TASK',
   task
 });
 
-const updateTask = (task) => ({
+const updateTask = task => ({
   type: 'UPDATE_TASK',
   task
 });
 
-const deleteTask = (task) => ({
+const deleteTask = task => ({
   type: 'DELETE_TASK',
   task
 });

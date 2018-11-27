@@ -10,7 +10,7 @@ const task = {
 
 describe('<EditTaskModal />', () => {
   it('has correct open status', () => {
-    let wrapper = shallow(<EditTaskModal task={task}/>);
+    let wrapper = shallow(<EditTaskModal task={task} />);
     expect(wrapper.find(Modal).prop('open')).toBeFalsy();
     wrapper = shallow(<EditTaskModal task={{ ...task, editMode: true }} />);
     expect(wrapper.find(Modal).prop('open')).toBeTruthy();

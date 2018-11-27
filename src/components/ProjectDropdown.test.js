@@ -17,11 +17,7 @@ const selectedProject = projects[0];
 
 describe.only('<ProjectDropdown />', () => {
   it('renders selected correctly when project is not selected', () => {
-    const wrapper = shallow(
-      <ProjectDropdown
-        projects={projects}
-      />
-    );
+    const wrapper = shallow(<ProjectDropdown projects={projects} />);
     const dropdown = wrapper.find(Dropdown);
 
     expect(dropdown.prop('text')).toContain('Project');
@@ -29,10 +25,7 @@ describe.only('<ProjectDropdown />', () => {
 
   it('renders selected correctly when project is selected', () => {
     const wrapper = shallow(
-      <ProjectDropdown
-        selectedProject={selectedProject}
-        projects={projects}
-      />
+      <ProjectDropdown selectedProject={selectedProject} projects={projects} />
     );
     const dropdown = wrapper.find(Dropdown);
 
@@ -41,10 +34,7 @@ describe.only('<ProjectDropdown />', () => {
 
   it('renders all selectable projects as options', () => {
     const wrapper = shallow(
-      <ProjectDropdown
-        selectedProject={selectedProject}
-        projects={projects}
-      />
+      <ProjectDropdown selectedProject={selectedProject} projects={projects} />
     );
     const items = wrapper.find(Dropdown.Item).map(item => item.dive().text());
 

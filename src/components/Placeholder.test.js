@@ -4,7 +4,6 @@ import Placeholder from './Placeholder';
 
 describe.only('<Placeholder />', () => {
   it('renders content', () => {
-
     const wrapper = shallow(<Placeholder />);
     const contentDiv = wrapper.find('.placeholder');
 

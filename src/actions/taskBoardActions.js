@@ -1,26 +1,26 @@
-const initTaskboard = (taskboard) => ({
+const initTaskboard = taskboard => ({
   type: 'INIT_TASKBOARD',
   taskboard
 });
 
-const updateTaskBoardFilter = (filter) => ({
+const updateTaskboardFilter = filter => ({
   type: 'UPDATE_TASKBOARD_FILTER',
   filter
 });
 
-const updateTaskBoardSortBy = (sortBy) => ({
+const updateTaskboardSortBy = sortBy => ({
   type: 'UPDATE_TASKBOARD_SORT_BY',
   sortBy
 });
 
-const updateTaskBoard = (board) => ({
+const updateTaskboard = board => ({
   type: 'UPDATE_TASKBOARD',
   board
 });
 
 export default {
   initTaskboard,
-  updateTaskBoardFilter,
-  updateTaskBoardSortBy,
-  updateTaskBoard,
+  updateTaskboardFilter,
+  updateTaskboardSortBy,
+  updateTaskboard
 };

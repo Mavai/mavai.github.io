@@ -4,7 +4,6 @@ import { updateTask, removeTask } from '../operations/taskOperations';
 import TaskForm from './TaskForm';
 
 export class EditTaskForm extends React.PureComponent {
-
   onSubmit = formData => {
     const { task, updateTask } = this.props;
     let boardInfo = null;
@@ -15,18 +14,22 @@ export class EditTaskForm extends React.PureComponent {
         destinationIndex: Infinity
       };
     }
-    updateTask({ ...task, ...formData, project: task.project.id }, true, boardInfo);
-  }
+    updateTask(
+      { ...task, ...formData, project: task.project.id },
+      true,
+      boardInfo
+    );
+  };
 
   stopTaskEdit = task => {
     const { updateTask } = this.props;
     return () => updateTask({ ...task, editMode: false }, false);
-  }
+  };
 
   removeTask = () => {
     const { task, removeTask } = this.props;
     removeTask(task);
-  }
+  };
 
   render() {
     const { task } = this.props;
@@ -35,7 +38,8 @@ export class EditTaskForm extends React.PureComponent {
         onSubmit={this.onSubmit}
         onCancel={this.stopTaskEdit(task)}
         onDelete={this.removeTask}
-        initialValues={task} />
+        initialValues={task}
+      />
     );
   }
 }

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Container } from 'semantic-ui-react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import NavBar from './components/NavBar';
-import TaskBoard from './components/TaskBoard';
+import Taskboard from './components/Taskboard';
 import ProjectInfo from './components/ProjectInfo';
 import { initTasks } from './operations/taskOperations';
 import { initStatuses } from './operations/statusOperations';
@@ -11,14 +11,10 @@ import { initProjects } from './operations/projectOperations';
 import NewTaskForm from './components/NewTaskForm';
 
 export class App extends PureComponent {
-
   componentDidMount = async () => {
     const { initProjects, initStatuses } = this.props;
-    await Promise.all([
-      initStatuses(),
-      initProjects()
-    ]);
-  }
+    await Promise.all([initStatuses(), initProjects()]);
+  };
 
   render() {
     return (
@@ -26,16 +22,11 @@ export class App extends PureComponent {
         <div>
           <NavBar />
           <Container style={{ marginTop: 60 }}>
+            <Route exact path="/" render={() => <ProjectInfo />} />
+            <Route exact path="/taskboard" render={() => <Taskboard />} />
             <Route
-              exact path='/'
-              render={() => (<ProjectInfo />)}
-            />
-            <Route
-              exact path='/taskboard'
-              render={() => <TaskBoard />}
-            />
-            <Route
-              exact path='/create'
+              exact
+              path="/create"
               render={({ history }) => <NewTaskForm history={history} />}
             />
           </Container>
@@ -45,9 +36,9 @@ export class App extends PureComponent {
   }
 }
 
-export default connect(state =>
-  ({
+export default connect(
+  state => ({
     selectedProject: state.projects.selected
   }),
-{ initTasks, initStatuses, initProjects }
+  { initTasks, initStatuses, initProjects }
 )(App);

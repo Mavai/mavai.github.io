@@ -6,29 +6,24 @@ import TaskForm from './TaskForm';
 import { selectCurrentProject } from '../store';
 
 export class NewTaskForm extends React.PureComponent {
-
   onSubmit = formData => {
     const { createTask, history } = this.props;
     createTask(formData);
     history.push('/');
-  }
+  };
 
   render() {
     const { selectedProject } = this.props;
 
-    if (!selectedProject) return (
-      <Placeholder />
-    );
+    if (!selectedProject) return <Placeholder />;
 
-    return (
-      <TaskForm onSubmit={this.onSubmit} />
-    );
+    return <TaskForm onSubmit={this.onSubmit} />;
   }
 }
 
-export default connect(state =>
-  ({
+export default connect(
+  state => ({
     selectedProject: selectCurrentProject(state)
   }),
-{ createTask }
+  { createTask }
 )(NewTaskForm);

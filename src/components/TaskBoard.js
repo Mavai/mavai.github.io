@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import StatusColumn from './StatusColumn';
 import { changeTaskStatus } from '../operations/taskOperations';
-import { initTaskboard } from '../operations/taskBoardOperations';
+import { initTaskboard } from '../operations/taskboardOperations';
 import {
   selectTasksAsMap,
   selectCurrentProject,
@@ -12,50 +12,56 @@ import {
   selectStatuses
 } from '../store';
 import Placeholder from './Placeholder';
-import TaskBoardToolbar from './TaskBoardToolbar';
+import TaskboardToolbar from './TaskboardToolbar';
 
-export class TaskBoard extends React.PureComponent {
-
+export class Taskboard extends React.PureComponent {
   componentDidMount = () => {
-    if (!this.props.taskBoard) {
+    if (!this.props.taskboard) {
       this.props.initTaskboard();
     }
-  }
+  };
 
   onDragEnd = async result => {
-    const { taskBoard, tasks, changeTaskStatus } = this.props;
+    const { taskboard, tasks, changeTaskStatus } = this.props;
     if (!result.destination) return;
     const { droppableId: oldStatus, index: sourceIndex } = result.source;
-    const { droppableId: newStatus, index: destinationIndex } = result.destination;
-    const taskId = taskBoard[oldStatus][sourceIndex];
+    const {
+      droppableId: newStatus,
+      index: destinationIndex
+    } = result.destination;
+    const taskId = taskboard[oldStatus][sourceIndex];
     const task = tasks[taskId];
     const updatedTask = { ...task, status: newStatus };
-    await changeTaskStatus(updatedTask, { oldStatus, newStatus, sourceIndex, destinationIndex });
+    await changeTaskStatus(updatedTask, {
+      oldStatus,
+      newStatus,
+      sourceIndex,
+      destinationIndex
+    });
   };
 
   render() {
-    const { selectedProject, statuses, taskBoard, tasks } = this.props;
+    const { selectedProject, statuses, taskboard, tasks } = this.props;
 
-    if (!selectedProject) return (
-      <Placeholder />
-    );
+    if (!selectedProject) return <Placeholder />;
 
     return (
       <div>
-        <TaskBoardToolbar />
+        <TaskboardToolbar />
         <DragDropContext onDragEnd={this.onDragEnd}>
           <Grid columns={statuses.length || 1} stackable>
             {statuses.map(status => (
               <Grid.Column key={status.name}>
                 <h1>{status.name}</h1>
                 <Droppable droppableId={status.id}>
-                  {(provided) => (
+                  {provided => (
                     <div ref={provided.innerRef} style={{ minHeight: '100%' }}>
                       <StatusColumn
                         key={status.name}
                         tasks={tasks}
-                        column={taskBoard ? taskBoard[status.id] : []}
-                        status={status}/>
+                        column={taskboard ? taskboard[status.id] : []}
+                        status={status}
+                      />
                       {provided.placeholder}
                     </div>
                   )}
@@ -69,17 +75,17 @@ export class TaskBoard extends React.PureComponent {
   }
 }
 
-TaskBoard.defaultProps = {
+Taskboard.defaultProps = {
   statuses: [],
-  taskBoard: {}
+  taskboard: {}
 };
 
-export default connect(state =>
-  ({
+export default connect(
+  state => ({
     tasks: selectTasksAsMap(state),
     statuses: selectStatuses(state),
     selectedProject: selectCurrentProject(state),
-    taskBoard: selectCurrentTaskboard(state)
+    taskboard: selectCurrentTaskboard(state)
   }),
-{ changeTaskStatus, initTaskboard }
-)(TaskBoard);
+  { changeTaskStatus, initTaskboard }
+)(Taskboard);

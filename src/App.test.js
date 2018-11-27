@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { App } from './App';
 import ProjectInfo from './components/ProjectInfo';
-import TaskBoard from './components/TaskBoard';
+import Taskboard from './components/Taskboard';
 import NewTaskForm from './components/NewTaskForm';
 
 describe('<App />', () => {
@@ -10,10 +10,7 @@ describe('<App />', () => {
     const mockInitStatuses = jest.fn();
     const mockInitProjects = jest.fn();
     await shallow(
-      <App
-        initStatuses={mockInitStatuses}
-        initProjects={mockInitProjects}
-      />
+      <App initStatuses={mockInitStatuses} initProjects={mockInitProjects} />
     );
     expect(mockInitStatuses.mock.calls).toHaveLength(1);
     expect(mockInitProjects.mock.calls).toHaveLength(1);
@@ -32,11 +29,20 @@ describe('<App />', () => {
         selectedProject={project}
       />
     );
-    const projectInfo = wrapper.find('Route').first().prop('render')();
+    const projectInfo = wrapper
+      .find('Route')
+      .first()
+      .prop('render')();
     expect(projectInfo).toEqual(<ProjectInfo />);
-    const taskBoard = wrapper.find('Route').at(1).prop('render')();
-    expect(taskBoard).toEqual(<TaskBoard />);
-    const newTaskForm = wrapper.find('Route').at(2).prop('render')({ history: 'mock' });
-    expect(newTaskForm).toEqual(<NewTaskForm history='mock' />);
+    const taskboard = wrapper
+      .find('Route')
+      .at(1)
+      .prop('render')();
+    expect(taskboard).toEqual(<Taskboard />);
+    const newTaskForm = wrapper
+      .find('Route')
+      .at(2)
+      .prop('render')({ history: 'mock' });
+    expect(newTaskForm).toEqual(<NewTaskForm history="mock" />);
   });
 });

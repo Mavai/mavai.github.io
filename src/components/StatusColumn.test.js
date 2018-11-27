@@ -12,7 +12,7 @@ describe('<StatusColumn />', () => {
     '1': { id: 1, name: 'Test task 1' },
     '2': { id: 1, name: 'Test task 2' }
   };
-  const column = [ '1', '2' ];
+  const column = ['1', '2'];
   beforeAll(() => {
     wrapper = shallow(
       <StatusColumn

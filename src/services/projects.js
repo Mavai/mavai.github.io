@@ -6,7 +6,7 @@ const getAll = async () => {
   return response.data;
 };
 
-const update = async (project) => {
+const update = async project => {
   const response = await axios.put(`${baseUrl}/${project.id}`, project);
   return response.data;
 };

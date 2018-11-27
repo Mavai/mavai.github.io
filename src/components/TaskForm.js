@@ -6,50 +6,69 @@ import { withFormik } from 'formik';
 import { selectStatuses } from '../store';
 
 export class TaskForm extends React.PureComponent {
-
   getStatusDropdown = statuses => {
-    return statuses.map(status => (
-      {
-        key: status.name,
-        text: status.name,
-        value: status.id
-      }
-    ));
-  }
+    return statuses.map(status => ({
+      key: status.name,
+      text: status.name,
+      value: status.id
+    }));
+  };
 
   render() {
-    const { statuses, handleChange, setFieldValue, handleSubmit, onCancel, onDelete, values } = this.props;
+    const {
+      statuses,
+      handleChange,
+      setFieldValue,
+      handleSubmit,
+      onCancel,
+      onDelete,
+      values
+    } = this.props;
     return (
       <Form onSubmit={handleSubmit}>
         <Form.Input
-          className='form-field'
-          label='Name'
+          className="form-field"
+          label="Name"
           onChange={handleChange}
           value={values.name}
-          name='name'
+          name="name"
         />
         <Form.Input
-          className='form-field'
-          label='Description'
+          className="form-field"
+          label="Description"
           onChange={handleChange}
           value={values.description}
-          name='description'
+          name="description"
         />
         <Form.Dropdown
-          className='form-field'
+          className="form-field"
           selection
-          label='Status'
-          options = {this.getStatusDropdown(statuses)}
+          label="Status"
+          options={this.getStatusDropdown(statuses)}
           onChange={(e, { name, value }) => setFieldValue(name, value)}
-          name='status'
-          placeholder='Status'
+          name="status"
+          placeholder="Status"
           defaultValue={values.status}
         />
-        <Button type='submit' color='blue'>Submit</Button>
-        { onCancel &&
-        <Button type='button' className='cancel' onClick={onCancel}>Cancel</Button> }
-        { onDelete &&
-        <Button type='button' color='red' className='delete' style={{ float: 'right' }} onClick={onDelete}>Delete</Button> }
+        <Button type="submit" color="blue">
+          Submit
+        </Button>
+        {onCancel && (
+          <Button type="button" className="cancel" onClick={onCancel}>
+            Cancel
+          </Button>
+        )}
+        {onDelete && (
+          <Button
+            type="button"
+            color="red"
+            className="delete"
+            style={{ float: 'right' }}
+            onClick={onDelete}
+          >
+            Delete
+          </Button>
+        )}
       </Form>
     );
   }
@@ -59,7 +78,7 @@ TaskForm.defaultProps = {
   statuses: []
 };
 
-export const handleSubmit = ( values, { props }) => {
+export const handleSubmit = (values, { props }) => {
   props.onSubmit(values);
 };
 
@@ -75,9 +94,9 @@ export const FormikTaskForm = withFormik({
   handleSubmit
 })(TaskForm);
 
-export default connect(state =>
-  ({
+export default connect(
+  state => ({
     statuses: selectStatuses(state)
   }),
-{ createTask }
+  { createTask }
 )(FormikTaskForm);

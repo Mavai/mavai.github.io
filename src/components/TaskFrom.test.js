@@ -59,15 +59,22 @@ describe('<TaskForm />', () => {
   });
 
   it('onCancel is called when cancel is pressed', () => {
-    wrapper.find('.cancel').first().simulate('click');
+    wrapper
+      .find('.cancel')
+      .first()
+      .simulate('click');
     expect(mockCancel.mock.calls.length).toEqual(1);
   });
 
   describe('<FormikTaskForm />', () => {
     it('initial values are correct when none provided', () => {
-      const wrapper = shallow(
-        <FormikTaskForm />);
-      expect(wrapper.dive().find(TaskForm).prop('values')).toEqual(values);
+      const wrapper = shallow(<FormikTaskForm />);
+      expect(
+        wrapper
+          .dive()
+          .find(TaskForm)
+          .prop('values')
+      ).toEqual(values);
     });
 
     it('when form is submitted onSubmit is called with correct parameter', () => {

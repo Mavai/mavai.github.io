@@ -6,10 +6,10 @@ export const taskReducer = (state = initialState, action) => {
     case 'INIT_TASKS':
       return action.tasks;
     case 'CREATE_TASK':
-      return [ ...state, action.task ];
+      return [...state, action.task];
     case 'UPDATE_TASK': {
       const filteredTasks = state.filter(task => task.id !== action.task.id);
-      return [ ...filteredTasks, action.task ];
+      return [...filteredTasks, action.task];
     }
     case 'DELETE_TASK':
       return state.filter(task => task.id !== action.task.id);
@@ -27,10 +27,13 @@ export const selectTasksByStatus = (tasks, statuses) => {
 
 export const selectTasksAsMap = tasks => {
   return tasks.length
-    ? tasks.reduce((obj, task) => ({
-      ...obj,
-      [task.id]: task
-    }), {})
+    ? tasks.reduce(
+        (obj, task) => ({
+          ...obj,
+          [task.id]: task
+        }),
+        {}
+      )
     : null;
 };
 
@@ -38,10 +41,12 @@ export const selectColumnTasks = (tasks, column, filterOptions) => {
   if (!tasks || !column) return [];
   let columnTasks = column.map(taskId => tasks[taskId]);
   if (filterOptions.filter) {
-    columnTasks = columnTasks.filter(task => task.name.includes(filterOptions.filter));
+    columnTasks = columnTasks.filter(task =>
+      task.name.includes(filterOptions.filter)
+    );
   }
   if (filterOptions.sortBy) {
-    columnTasks = sortBy(columnTasks, [ filterOptions.sortBy ]);
+    columnTasks = sortBy(columnTasks, [filterOptions.sortBy]);
   }
   return columnTasks;
 };

@@ -17,7 +17,7 @@ const getAll = () => {
   return Promise.resolve(projects);
 };
 
-const update = (project) => {
+const update = project => {
   return Promise.resolve({ ...project, saved: true });
 };
 

@@ -8,10 +8,7 @@ describe('<TaskControls />', () => {
   let mockUpdate = jest.fn();
   beforeAll(() => {
     wrapper = shallow(
-      <TaskControls
-        removeTask={mockRemove}
-        editTask={mockUpdate}
-      />
+      <TaskControls removeTask={mockRemove} editTask={mockUpdate} />
     );
   });
 

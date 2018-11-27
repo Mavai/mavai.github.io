@@ -6,19 +6,23 @@ describe('Task service', () => {
   const mock = new MockAdapter(axios);
 
   it('getAll returns list of tasks', async () => {
-    mock.onGet('api/tasks').reply(200, [
-      { id: '1', name: 'Test task 1' },
-      { id: '2', name: 'Test task 2' }
-    ]);
+    mock
+      .onGet('api/tasks')
+      .reply(200, [
+        { id: '1', name: 'Test task 1' },
+        { id: '2', name: 'Test task 2' }
+      ]);
     const tasks = await taskService.getAll();
     expect(tasks).toHaveLength(2);
   });
 
   it('geAllFromProject returns list of tasks', async () => {
-    mock.onGet('api/tasks/project/1').reply(200, [
-      { id: '1', name: 'Test task 1' },
-      { id: '2', name: 'Test task 2' }
-    ]);
+    mock
+      .onGet('api/tasks/project/1')
+      .reply(200, [
+        { id: '1', name: 'Test task 1' },
+        { id: '2', name: 'Test task 2' }
+      ]);
     const tasks = await taskService.getAllFromProject('1');
     expect(tasks).toHaveLength(2);
   });

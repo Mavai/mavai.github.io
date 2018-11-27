@@ -12,9 +12,7 @@ describe('taskReducer', () => {
   };
 
   describe('INIT_PROJECTS', () => {
-    const projects = [
-      { id: '4', name: 'Test project 4' }
-    ];
+    const projects = [{ id: '4', name: 'Test project 4' }];
 
     it('works without initial state', () => {
       const state = projectReducer(undefined, Creators.initProjects(projects));
@@ -22,7 +20,10 @@ describe('taskReducer', () => {
     });
 
     it('works with initial state', () => {
-      const state = projectReducer(initialState, Creators.initProjects(projects));
+      const state = projectReducer(
+        initialState,
+        Creators.initProjects(projects)
+      );
       expect(state.all).toHaveLength(1);
       expect(state.all).not.toContain(initialState.all[0]);
       expect(state.all).not.toContain(initialState.all[1]);
@@ -32,7 +33,8 @@ describe('taskReducer', () => {
 
   describe('UPDATE_PROJECT', () => {
     const project = {
-      id: '1', name: 'Updated project 1'
+      id: '1',
+      name: 'Updated project 1'
     };
     it('works without initial state', () => {
       const state = projectReducer(undefined, Creators.updateProject(project));
@@ -41,7 +43,10 @@ describe('taskReducer', () => {
     });
 
     it('works with initial state', () => {
-      const state = projectReducer(initialState, Creators.updateProject(project));
+      const state = projectReducer(
+        initialState,
+        Creators.updateProject(project)
+      );
       expect(state.all).toHaveLength(3);
       expect(state.all).toContain(project);
     });
@@ -61,24 +66,30 @@ describe('taskReducer', () => {
 
   describe('selectors', () => {
     const projects = [
-      { id: '1', name: 'Test project 1', taskBoard: 'mock' },
+      { id: '1', name: 'Test project 1', taskboard: 'mock' },
       { id: '2', name: 'Test project 2' },
       { id: '3', name: 'Test project 3' }
     ];
     const selected = '1';
 
     it('selectCurrentProject returns currently selected project as object', () => {
-      const selectedProject = FromProjects.selectCurrentProject(projects, selected);
+      const selectedProject = FromProjects.selectCurrentProject(
+        projects,
+        selected
+      );
       expect(selectedProject).toEqual(projects[0]);
     });
 
     it('selectCurrentTaskboard returns taskboard of the selected project', () => {
       const taskboard = FromProjects.selectCurrentTaskboard(projects, selected);
-      expect(taskboard).toEqual(projects[0].taskBoard);
+      expect(taskboard).toEqual(projects[0].taskboard);
     });
 
     it('selectCurrentTaskboard returns null when no project is selected', () => {
-      const taskboard = FromProjects.selectCurrentTaskboard(projects, undefined);
+      const taskboard = FromProjects.selectCurrentTaskboard(
+        projects,
+        undefined
+      );
       expect(taskboard).toBeNull();
     });
   });

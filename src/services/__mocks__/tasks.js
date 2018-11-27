@@ -21,15 +21,15 @@ const getAllFromProject = () => {
   return Promise.resolve(tasks);
 };
 
-const createNew = (task) => {
+const createNew = task => {
   return Promise.resolve({ ...task, created: true });
 };
 
-const update = async (task) => {
+const update = async task => {
   return Promise.resolve({ ...task, saved: true });
 };
 
-const remove = async (task) => {
+const remove = async task => {
   Promise.resolve({ ...task, deleted: true });
 };
 
@@ -40,4 +40,4 @@ export default {
   createNew,
   update,
   remove
-}
+};

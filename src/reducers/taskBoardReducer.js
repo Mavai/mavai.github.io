@@ -4,7 +4,7 @@ const initialState = {
   board: null
 };
 
-export const taskBoardReducer = (state = initialState, action) => {
+export const taskboardReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'INIT_TASKBOARD': {
       return { ...initialState, ...action.taskboard };
@@ -24,4 +24,4 @@ export const taskBoardReducer = (state = initialState, action) => {
   }
 };
 
-export default taskBoardReducer;
+export default taskboardReducer;

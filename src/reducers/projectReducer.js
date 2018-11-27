@@ -12,10 +12,12 @@ const projectReducer = (state = initialState, action) => {
     case 'CHANGE_SELECTED':
       return { ...state, selected: action.project };
     case 'UPDATE_PROJECT': {
-      let filteredProjects = state.all.filter(project => project.id !== action.project.id);
+      let filteredProjects = state.all.filter(
+        project => project.id !== action.project.id
+      );
       return {
         ...state,
-        all: [ ...filteredProjects, action.project ]
+        all: [...filteredProjects, action.project]
       };
     }
     default:
@@ -29,9 +31,7 @@ export const selectCurrentProject = (all, selected) => {
 
 export const selectCurrentTaskboard = (all, selected) => {
   const selectedProject = selectCurrentProject(all, selected);
-  return selectedProject
-    ? selectedProject.taskBoard
-    : null;
+  return selectedProject ? selectedProject.taskboard : null;
 };
 
 export default projectReducer;

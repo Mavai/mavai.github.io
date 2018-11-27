@@ -24,10 +24,7 @@ describe.only('<NewTaskForm />', () => {
   it('updateTask is called with correct arguments when status is changed', () => {
     const mockUpdate = jest.fn();
     const wrapper = shallow(
-      <EditTaskForm
-        task={task}
-        updateTask={mockUpdate}
-      />
+      <EditTaskForm task={task} updateTask={mockUpdate} />
     );
     const formData = { ...task, status: 2 };
     wrapper.instance().onSubmit(formData);
@@ -37,9 +34,11 @@ describe.only('<NewTaskForm />', () => {
       newStatus: formData.status,
       destinationIndex: Infinity
     };
-    expect(mockUpdate.mock.calls[0][0]).toEqual(
-      { ...task, ...formData, project: task.project.id }
-    );
+    expect(mockUpdate.mock.calls[0][0]).toEqual({
+      ...task,
+      ...formData,
+      project: task.project.id
+    });
     expect(mockUpdate.mock.calls[0][1]).toEqual(true);
     expect(mockUpdate.mock.calls[0][2]).toEqual(boardInfo);
   });
@@ -47,17 +46,16 @@ describe.only('<NewTaskForm />', () => {
   it('updateTask is called with correct arguments when status is not changed', () => {
     const mockUpdate = jest.fn();
     const wrapper = shallow(
-      <EditTaskForm
-        task={task}
-        updateTask={mockUpdate}
-      />
+      <EditTaskForm task={task} updateTask={mockUpdate} />
     );
     const formData = { ...task, status: 1 };
     wrapper.instance().onSubmit(formData);
     expect(mockUpdate.mock.calls.length).toEqual(1);
-    expect(mockUpdate.mock.calls[0][0]).toEqual(
-      { ...task, ...formData, project: task.project.id }
-    );
+    expect(mockUpdate.mock.calls[0][0]).toEqual({
+      ...task,
+      ...formData,
+      project: task.project.id
+    });
     expect(mockUpdate.mock.calls[0][1]).toEqual(true);
     expect(mockUpdate.mock.calls[0][2]).toEqual(null);
   });
@@ -65,10 +63,7 @@ describe.only('<NewTaskForm />', () => {
   it('stopTaskEdit calls updateTask with correct parameters', () => {
     const mockUpdate = jest.fn();
     const wrapper = shallow(
-      <EditTaskForm
-        task={task}
-        updateTask={mockUpdate}
-      />
+      <EditTaskForm task={task} updateTask={mockUpdate} />
     );
     wrapper.instance().stopTaskEdit(task)();
     expect(mockUpdate.mock.calls).toHaveLength(1);

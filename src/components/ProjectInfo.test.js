@@ -17,23 +17,18 @@ const tasksByStatus = [
       name: 'Started',
       color: 'cyan'
     },
-    tasks: [
-      tasks[0], tasks[1]
-    ]
+    tasks: [tasks[0], tasks[1]]
   },
   {
     status: {
       name: 'Finished',
       color: 'green'
     },
-    tasks: [
-      tasks[2], tasks[3]
-    ]
+    tasks: [tasks[2], tasks[3]]
   }
 ];
 
 describe.only('<ProjectInfo />', () => {
-
   it('renders content correctly when no project is selected', () => {
     const wrapper = shallow(<ProjectInfo selectedProject={null} />);
     expect(wrapper.find(Placeholder).exists()).toEqual(true);
@@ -60,7 +55,9 @@ describe.only('<ProjectInfo />', () => {
     it('displayed info includes each status', () => {
       const statusInfos = wrapper.find('.status-info').map(row => row.text());
       tasksByStatus.forEach(obj => {
-        expect(statusInfos).toContain(`${obj.status.name}: ${obj.tasks.length}`);
+        expect(statusInfos).toContain(
+          `${obj.status.name}: ${obj.tasks.length}`
+        );
       });
     });
 
@@ -68,7 +65,9 @@ describe.only('<ProjectInfo />', () => {
       const cells = wrapper.find(Cell);
       expect(cells.length).toEqual(tasksByStatus.length);
       tasksByStatus.forEach(obj => {
-        expect(cells.map(cell => cell.prop('fill'))).toContain(obj.status.color);
+        expect(cells.map(cell => cell.prop('fill'))).toContain(
+          obj.status.color
+        );
       });
     });
   });

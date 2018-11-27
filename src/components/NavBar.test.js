@@ -4,11 +4,7 @@ import { NavBar } from './NavBar';
 
 describe.only('<NavBar />', () => {
   it('renders content', () => {
-    const expectedLinks = [
-      'Info',
-      'Taskboard',
-      'New task'
-    ];
+    const expectedLinks = ['Info', 'Taskboard', 'New task'];
 
     const navBar = shallow(<NavBar />);
     const navigationLinks = navBar.find('.nav-link');

@@ -8,7 +8,7 @@ import taskService from '../services/tasks';
 import * as Operations from '../operations/projectOperations';
 import { getAction } from '../testUtils';
 
-const middlewares = [ thunk ];
+const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
 describe('Project operations', () => {
@@ -18,17 +18,29 @@ describe('Project operations', () => {
   });
 
   it('initProjects works and changes selected when one is cached', async () => {
-    localStorage.setItem('selectedProject', JSON.stringify(projectService.projects[0]));
+    localStorage.setItem(
+      'selectedProject',
+      JSON.stringify(projectService.projects[0])
+    );
     await store.dispatch(Operations.initProjects());
-    expect(await getAction(store, Types.INIT_PROJECTS)).toEqual({ type: Types.INIT_PROJECTS, projects: projectService.projects });
-    expect(await getAction(store, Types.CHANGE_SELECTED)).toEqual({ type: Types.CHANGE_SELECTED, project: projectService.projects[0] });
-    expect(await getAction(store, Types.INIT_TASKS)).toEqual({ type: Types.INIT_TASKS, tasks: taskService.tasks });
+    expect(await getAction(store, Types.INIT_PROJECTS)).toEqual({
+      type: Types.INIT_PROJECTS,
+      projects: projectService.projects
+    });
+    expect(await getAction(store, Types.CHANGE_SELECTED)).toEqual({
+      type: Types.CHANGE_SELECTED,
+      project: projectService.projects[0]
+    });
+    expect(await getAction(store, Types.INIT_TASKS)).toEqual({
+      type: Types.INIT_TASKS,
+      tasks: taskService.tasks
+    });
   });
 
   it('initProjects does not change selected when one is not cached', async () => {
     localStorage.clear();
     const expectedActions = [
-      { type: Types.INIT_PROJECTS, projects: projectService.projects },
+      { type: Types.INIT_PROJECTS, projects: projectService.projects }
     ];
     await store.dispatch(Operations.initProjects());
     expect(store.getActions()).toEqual(expectedActions);
@@ -38,15 +50,19 @@ describe('Project operations', () => {
     localStorage.clear();
     const project = projectService.projects[0];
     await store.dispatch(Operations.selectProject(project));
-    expect(await getAction(store, Types.CHANGE_SELECTED)).toEqual({ type: Types.CHANGE_SELECTED, project: project });
-    expect(await getAction(store, Types.INIT_TASKS)).toEqual({ type: Types.INIT_TASKS, tasks: taskService.tasks });
+    expect(await getAction(store, Types.CHANGE_SELECTED)).toEqual({
+      type: Types.CHANGE_SELECTED,
+      project: project
+    });
+    expect(await getAction(store, Types.INIT_TASKS)).toEqual({
+      type: Types.INIT_TASKS,
+      tasks: taskService.tasks
+    });
   });
 
   it('updateProject does not save changes to db when save=false', async () => {
     const project = projectService.projects[0];
-    const expectedActions = [
-      { type: Types.UPDATE_PROJECT, project: project }
-    ];
+    const expectedActions = [{ type: Types.UPDATE_PROJECT, project: project }];
     await store.dispatch(Operations.updateProject(project, false));
     expect(store.getActions()).toEqual(expectedActions);
   });
@@ -60,20 +76,24 @@ describe('Project operations', () => {
     expect(store.getActions()).toEqual(expectedActions);
   });
 
-  it('addToTaskBoard updates project with correct taskboard', async () => {
+  it('addToTaskboard updates project with correct taskboard', async () => {
     const task = { id: '4', status: { id: '2' } };
-    const taskBoard = {
-      '1': [ '1', '2' ],
-      '2': [ '3' ]
+    const taskboard = {
+      '1': ['1', '2'],
+      '2': ['3']
     };
     const project = {
-      taskBoard
+      taskboard
     };
-    const updateTaskBoard = {
-      '1': [ '1', '2' ],
-      '2': [ '3', '4' ]
+    const updateTaskboard = {
+      '1': ['1', '2'],
+      '2': ['3', '4']
     };
-    const updateProject = { ...project, taskBoard: updateTaskBoard, saved: true };
+    const updateProject = {
+      ...project,
+      taskboard: updateTaskboard,
+      saved: true
+    };
     const expectedActions = [
       { type: Types.UPDATE_PROJECT, project: updateProject }
     ];
@@ -82,26 +102,32 @@ describe('Project operations', () => {
     });
   });
 
-  it('removeFromTaskBoard updates project with correct taskboard', async () => {
+  it('removeFromTaskboard updates project with correct taskboard', async () => {
     const task = { id: '3', status: { id: '2' } };
-    const taskBoard = {
-      '1': [ '1', '2' ],
-      '2': [ '3' ]
+    const taskboard = {
+      '1': ['1', '2'],
+      '2': ['3']
     };
     const project = {
-      taskBoard
+      taskboard
     };
-    const updateTaskBoard = {
-      '1': [ '1', '2' ],
+    const updateTaskboard = {
+      '1': ['1', '2'],
       '2': []
     };
-    const updateProject = { ...project, taskBoard: updateTaskBoard, saved: true };
+    const updateProject = {
+      ...project,
+      taskboard: updateTaskboard,
+      saved: true
+    };
     const expectedActions = [
       { type: Types.UPDATE_PROJECT, project: updateProject }
     ];
-    return store.dispatch(Operations.removeTaskFromBoard(project, task)).then(() => {
-      expect(store.getActions()).toEqual(expectedActions);
-    });
+    return store
+      .dispatch(Operations.removeTaskFromBoard(project, task))
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
   });
 
   it('updateTaskOnBoard updates project with correct taskboard when status is updated', async () => {
@@ -112,23 +138,28 @@ describe('Project operations', () => {
       sourceIndex: 0,
       destinationIndex: 1
     };
-    const taskBoard = {
-      '1': [ '1', '2' ],
-      '2': [ '3' ]
+    const taskboard = {
+      '1': ['1', '2'],
+      '2': ['3']
     };
     const project = {
-      taskBoard
+      taskboard
     };
-    const updateTaskBoard = {
-      '1': [ '1', '3', '2' ],
+    const updateTaskboard = {
+      '1': ['1', '3', '2'],
       '2': []
     };
     const expectedActions = [
-      { type: Types.UPDATE_PROJECT, project: {  ...project, taskBoard: updateTaskBoard } }
+      {
+        type: Types.UPDATE_PROJECT,
+        project: { ...project, taskboard: updateTaskboard }
+      }
     ];
-    return store.dispatch(Operations.updateTaskOnBoard(project, task, boardInfo)).then(() => {
-      expect(store.getActions()).toEqual(expectedActions);
-    });
+    return store
+      .dispatch(Operations.updateTaskOnBoard(project, task, boardInfo))
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
   });
 
   it('updateTaskOnBoard updates project with correct taskboard when status is updated', async () => {
@@ -139,22 +170,27 @@ describe('Project operations', () => {
       sourceIndex: 0,
       destinationIndex: 1
     };
-    const taskBoard = {
-      '1': [ '1', '2' ],
-      '2': [ '3' ]
+    const taskboard = {
+      '1': ['1', '2'],
+      '2': ['3']
     };
     const project = {
-      taskBoard
+      taskboard
     };
-    const updateTaskBoard = {
-      '1': [ '2', '1' ],
-      '2': [ '3' ]
+    const updateTaskboard = {
+      '1': ['2', '1'],
+      '2': ['3']
     };
     const expectedActions = [
-      { type: Types.UPDATE_PROJECT, project: {  ...project, taskBoard: updateTaskBoard } },
+      {
+        type: Types.UPDATE_PROJECT,
+        project: { ...project, taskboard: updateTaskboard }
+      }
     ];
-    return store.dispatch(Operations.updateTaskOnBoard(project, task, boardInfo)).then(() => {
-      expect(store.getActions()).toEqual(expectedActions);
-    });
+    return store
+      .dispatch(Operations.updateTaskOnBoard(project, task, boardInfo))
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
   });
 });

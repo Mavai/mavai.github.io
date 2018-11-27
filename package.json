@@ -7,6 +7,7 @@
     "formik": "^1.3.2",
     "lodash": "^4.17.11",
     "lodash-move": "^1.1.1",
+    "moment": "^2.22.2",
     "react": "^16.6.3",
     "react-beautiful-dnd": "^9.0.2",
     "react-dom": "^16.6.3",
@@ -33,7 +34,10 @@
     "coveralls": "^3.0.2",
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.7.0",
+    "eslint-plugin-jest": "^22.0.1",
+    "eslint-plugin-react": "^7.11.1",
     "json-server": "^0.14.0",
+    "prettier": "1.15.2",
     "redux-mock-store": "^1.5.3"
   },
   "proxy": "http://localhost:3001",

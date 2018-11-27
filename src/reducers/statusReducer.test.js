@@ -9,9 +9,7 @@ describe('taskReducer', () => {
   ];
 
   describe('INIT_PROJECTS', () => {
-    const statuses = [
-      { id: '4', name: 'Test project 4' }
-    ];
+    const statuses = [{ id: '4', name: 'Test project 4' }];
 
     it('works without initial state', () => {
       const state = projectReducer(undefined, Creators.initStatuses(statuses));
@@ -19,7 +17,10 @@ describe('taskReducer', () => {
     });
 
     it('works with initial state', () => {
-      const state = projectReducer(initialState, Creators.initStatuses(statuses));
+      const state = projectReducer(
+        initialState,
+        Creators.initStatuses(statuses)
+      );
       expect(state).toHaveLength(1);
       expect(state).not.toContain(initialState[0]);
       expect(state).not.toContain(initialState[1]);

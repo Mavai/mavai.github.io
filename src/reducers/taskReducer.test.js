@@ -9,9 +9,7 @@ describe('taskReducer', () => {
   ];
 
   describe('INIT_TASKS', () => {
-    const tasks = [
-      { id: '4', name: 'Test task 4' }
-    ];
+    const tasks = [{ id: '4', name: 'Test task 4' }];
 
     it('works without initial state', () => {
       const state = taskReducer(undefined, Creators.initTasks(tasks));
@@ -29,7 +27,8 @@ describe('taskReducer', () => {
 
   describe('CREATE_TASK', () => {
     const task = {
-      id: '4', name: 'Test task 4'
+      id: '4',
+      name: 'Test task 4'
     };
     it('works without initial state', () => {
       const state = taskReducer(undefined, Creators.createTask(task));
@@ -46,7 +45,9 @@ describe('taskReducer', () => {
 
   describe('UPDATE_TASK', () => {
     const task = {
-      id: '1', name: 'Test task 1', description: 'Task updated'
+      id: '1',
+      name: 'Test task 1',
+      description: 'Task updated'
     };
     it('works without initial state', () => {
       const state = taskReducer(undefined, Creators.updateTask(task));
@@ -63,7 +64,8 @@ describe('taskReducer', () => {
 
   describe('DELETE_TASK', () => {
     const task = {
-      id: '1', name: 'Test task 1'
+      id: '1',
+      name: 'Test task 1'
     };
     it('works without initial state', () => {
       const state = taskReducer(undefined, Creators.deleteTask(task));
@@ -84,15 +86,15 @@ describe('taskReducer', () => {
       { id: '3', name: 'Test task 3', status: { id: '2' } }
     ];
     it('selectTasksByStatus returns tasks mapped by status', () => {
-      const statuses = [ { id: '1' }, { id: '2' } ];
+      const statuses = [{ id: '1' }, { id: '2' }];
       const tasksByStatus = FromTasks.selectTasksByStatus(tasks, statuses);
       expect(tasksByStatus).toHaveLength(2);
       expect(tasksByStatus[0].status).toEqual(statuses[0]);
       expect(tasksByStatus[0].tasks).toHaveLength(2);
-      expect(tasksByStatus[0].tasks).toEqual([ tasks[0], tasks[1] ]);
+      expect(tasksByStatus[0].tasks).toEqual([tasks[0], tasks[1]]);
       expect(tasksByStatus[1].status).toEqual(statuses[1]);
       expect(tasksByStatus[1].tasks).toHaveLength(1);
-      expect(tasksByStatus[1].tasks).toEqual([ tasks[2] ]);
+      expect(tasksByStatus[1].tasks).toEqual([tasks[2]]);
     });
 
     it('selectTasksAsMap returns tasks as a map', () => {

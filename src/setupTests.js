@@ -9,7 +9,7 @@ const localStorageMock = {
   setItem: (key, item) => {
     savedItems[key] = item;
   },
-  getItem: (key) => savedItems[key] || null,
+  getItem: key => savedItems[key] || null,
   clear: () => {
     savedItems = {};
   }

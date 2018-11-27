@@ -1,18 +1,19 @@
-import Creators from '../actions/taskBoardActions';
+import Creators from '../actions/taskboardActions';
 import taskboardService from '../services/taskboard';
 import move from 'lodash-move';
+import { removeTask } from '../operations/taskOperations';
 
 export const initTaskboard = () => async dispatch => {
   const savedBoard = localStorage.getItem('currentBoard');
   const taskboard = await taskboardService.getOne(savedBoard);
   dispatch(Creators.initTaskboard(taskboard));
 };
-export const updateTaskBoardFilter = filter => {
-  return Creators.updateTaskBoardFilter(filter);
+export const updateTaskboardFilter = filter => {
+  return Creators.updateTaskboardFilter(filter);
 };
 
-export const updateTaskBoardSortBy = sortBy => {
-  return Creators.updateTaskBoardSortBy(sortBy);
+export const updateTaskboardSortBy = sortBy => {
+  return Creators.updateTaskboardSortBy(sortBy);
 };
 
 export const loadTaskboard = id => async dispatch => {
@@ -26,36 +27,50 @@ export const loadTaskboard = id => async dispatch => {
 };
 
 export const addTaskToBoard = task => async (dispatch, getState) => {
-  const oldBoard = getState().taskBoard;
-  const board = {
-    ...oldBoard.board,
-    [task.status.id]: [ ...oldBoard.board[task.status.id], task.id ]
-  };
-  const updatedTaskboard = await taskboardService.update({ ...oldBoard, board });
-  dispatch(Creators.updateTaskBoard(updatedTaskboard));
+  try {
+    const oldBoard = getState().taskboard;
+    const board = {
+      ...oldBoard.board,
+      [task.status.id]: [...oldBoard.board[task.status.id], task.id]
+    };
+    const updatedTaskboard = await taskboardService.update({
+      ...oldBoard,
+      board
+    });
+    dispatch(Creators.updateTaskboard(updatedTaskboard));
+  } catch (excpetion) {
+    dispatch(removeTask(task, false));
+  }
 };
 
 export const removeTaskFromBoard = task => async (dispatch, getState) => {
-  const oldBoard = getState().taskBoard;
+  const oldBoard = getState().taskboard;
   const board = {
     ...oldBoard.board,
-    [task.status.id]: oldBoard.board[task.status.id]
-      .filter(taskId => taskId !== task.id)
+    [task.status.id]: oldBoard.board[task.status.id].filter(
+      taskId => taskId !== task.id
+    )
   };
-  const updatedTaskboard = await taskboardService.update({ ...oldBoard, board });
-  dispatch(Creators.updateTaskBoard(updatedTaskboard.board));
+  const updatedTaskboard = await taskboardService.update({
+    ...oldBoard,
+    board
+  });
+  dispatch(Creators.updateTaskboard(updatedTaskboard.board));
 };
 
-export const updateTaskOnBoard = (task, boardInfo) => async (dispatch, getState) => {
+export const updateTaskOnBoard = (task, boardInfo) => async (
+  dispatch,
+  getState
+) => {
   const oldBoard = getState().taskboard;
-  let board = calculateTaskBoard(oldBoard.board, task, boardInfo);
-  dispatch(Creators.updateTaskBoard(board));
+  let board = calculateTaskboard(oldBoard.board, task, boardInfo);
+  dispatch(Creators.updateTaskboard(board));
   await taskboardService.update({ ...oldBoard, board });
 };
 
 /**
  * Calculates new taskboard when a taks's status is changed.
- * @param {object} taskBoard Current taskboard
+ * @param {object} taskboard Current taskboard
  * @param {object} task Task to update
  * @param {object} boardInfo Information needed to calculate the new taskboad
  * @param {string} boardInfo.oldStatus Id of the orevious status
@@ -63,22 +78,22 @@ export const updateTaskOnBoard = (task, boardInfo) => async (dispatch, getState)
  * @param {number} boardInfo.sourceIndex Index in the previous column
  * @param {number} boardInfo.destinationIndex Index in the new column
  */
-const calculateTaskBoard = (taskBoard, task, boardInfo) => {
+const calculateTaskboard = (taskboard, task, boardInfo) => {
   const { oldStatus, newStatus, sourceIndex, destinationIndex } = boardInfo;
   if (oldStatus !== newStatus) {
     return {
-      ...taskBoard,
-      [oldStatus]: taskBoard[oldStatus].filter((taskId) => taskId !== task.id),
+      ...taskboard,
+      [oldStatus]: taskboard[oldStatus].filter(taskId => taskId !== task.id),
       [newStatus]: [
-        ...taskBoard[newStatus].slice(0, destinationIndex),
+        ...taskboard[newStatus].slice(0, destinationIndex),
         task.id,
-        ...taskBoard[newStatus].slice(destinationIndex)
+        ...taskboard[newStatus].slice(destinationIndex)
       ]
     };
   } else {
     return {
-      ...taskBoard,
-      [oldStatus]: move(taskBoard[oldStatus], sourceIndex, destinationIndex)
+      ...taskboard,
+      [oldStatus]: move(taskboard[oldStatus], sourceIndex, destinationIndex)
     };
   }
 };

@@ -5,7 +5,7 @@ jest.mock('../services/statuses');
 import statusService from '../services/statuses';
 import * as Operations from '../operations/statusOperations';
 
-const middlewares = [ thunk ];
+const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
 describe('Status operations', () => {
@@ -16,7 +16,7 @@ describe('Status operations', () => {
 
   it('initStatuses works', async () => {
     const expectedActions = [
-      { type: Types.INIT_STAUSES, statuses: statusService.statuses },
+      { type: Types.INIT_STAUSES, statuses: statusService.statuses }
     ];
     await store.dispatch(Operations.initStatuses());
     expect(store.getActions()).toEqual(expectedActions);
