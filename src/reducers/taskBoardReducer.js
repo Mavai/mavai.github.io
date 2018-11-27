@@ -7,7 +7,7 @@ const initialState = {
 export const taskBoardReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'INIT_TASKBOARD': {
-      return { ...initialState, board: action.board };
+      return { ...initialState, ...action.taskboard };
     }
     case 'UPDATE_TASKBOARD_FILTER': {
       return { ...state, filter: action.filter };

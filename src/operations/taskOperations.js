@@ -25,19 +25,18 @@ export const createTask = (newTask) => async (dispatch, getState) => {
     project: selectedProject.id
   });
   dispatch(Creators.createTask(task));
-  dispatch(addTaskToBoard(selectedProject, task));
+  dispatch(addTaskToBoard(task));
 };
 
 /**
  * Update the given task.
  * @param {object} updatedTask Task to update
  */
-export const updateTask = (updatedTask, save=true, boardInfo) => async (dispatch, getState) => {
+export const updateTask = (updatedTask, save=true, boardInfo) => async dispatch => {
   const task = save ? await taskService.update(updatedTask) : updatedTask;
   dispatch(Creators.updateTask(task));
   if (boardInfo) {
-    const selectedProject = selectCurrentProject(getState());
-    dispatch(updateTaskOnBoard(selectedProject, task, boardInfo));
+    dispatch(updateTaskOnBoard(task, boardInfo));
   }
 };
 
@@ -55,10 +54,9 @@ export const changeTaskStatus = (task, boardInfo) => async (dispatch) => {
  * @param {object} task Task to remove.
  */
 export const removeTask = (task) => {
-  return async (dispatch, getState) => {
-    const selectedProject = selectCurrentProject(getState());
+  return async dispatch => {
     await taskService.remove(task);
     dispatch(Creators.deleteTask(task));
-    dispatch(removeTaskFromBoard(selectedProject, task));
+    dispatch(removeTaskFromBoard(task));
   };
 };

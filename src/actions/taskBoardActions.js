@@ -1,6 +1,6 @@
-const initTaskboard = (board) => ({
+const initTaskboard = (taskboard) => ({
   type: 'INIT_TASKBOARD',
-  board
+  taskboard
 });
 
 const updateTaskBoardFilter = (filter) => ({

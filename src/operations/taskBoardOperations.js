@@ -2,8 +2,10 @@ import Creators from '../actions/taskBoardActions';
 import taskboardService from '../services/taskboard';
 import move from 'lodash-move';
 
-export const initTaskboard = board => {
-  return Creators.initTaskboard(board);
+export const initTaskboard = () => async dispatch => {
+  const savedBoard = localStorage.getItem('currentBoard');
+  const taskboard = await taskboardService.getOne(savedBoard);
+  dispatch(Creators.initTaskboard(taskboard));
 };
 export const updateTaskBoardFilter = filter => {
   return Creators.updateTaskBoardFilter(filter);
@@ -14,38 +16,41 @@ export const updateTaskBoardSortBy = sortBy => {
 };
 
 export const loadTaskboard = id => async dispatch => {
-  if (!id) dispatch(Creators.updateTaskBoard(null));
-  const taskboard = await taskboardService.getOne(id);
-  dispatch(Creators.updateTaskBoard(taskboard.board));
+  if (!id) {
+    dispatch(Creators.initTaskboard(null));
+  } else {
+    const taskboard = await taskboardService.getOne(id);
+    dispatch(Creators.initTaskboard(taskboard));
+    localStorage.setItem('currentBoard', taskboard.id);
+  }
 };
 
-export const addTaskToBoard = (task) => async (dispatch, getState) => {
-  const oldBoard = getState().taskBoard.board;
+export const addTaskToBoard = task => async (dispatch, getState) => {
+  const oldBoard = getState().taskBoard;
   const board = {
-    ...getState().taskBoard.board,
-    [task.status.id]: [ ...oldBoard[task.status.id], task.id ]
+    ...oldBoard.board,
+    [task.status.id]: [ ...oldBoard.board[task.status.id], task.id ]
   };
   const updatedTaskboard = await taskboardService.update({ ...oldBoard, board });
   dispatch(Creators.updateTaskBoard(updatedTaskboard));
 };
 
-export const removeTaskFromBoard = (task) => async (dispatch, getState) => {
-  const oldBoard = getState().taskBoard.board;
+export const removeTaskFromBoard = task => async (dispatch, getState) => {
+  const oldBoard = getState().taskBoard;
   const board = {
-    ...oldBoard,
-    [task.status.id]: oldBoard[task.status.id]
+    ...oldBoard.board,
+    [task.status.id]: oldBoard.board[task.status.id]
       .filter(taskId => taskId !== task.id)
   };
   const updatedTaskboard = await taskboardService.update({ ...oldBoard, board });
-  dispatch(Creators.updateTaskBoard(updatedTaskboard));
+  dispatch(Creators.updateTaskBoard(updatedTaskboard.board));
 };
 
 export const updateTaskOnBoard = (task, boardInfo) => async (dispatch, getState) => {
-  const oldBoard = getState().taskBoard.board;
-  const project = getState().projects.selected;
-  let board = calculateTaskBoard(oldBoard, task, boardInfo);
+  const oldBoard = getState().taskboard;
+  let board = calculateTaskBoard(oldBoard.board, task, boardInfo);
   dispatch(Creators.updateTaskBoard(board));
-  await taskboardService.update({ board, project });
+  await taskboardService.update({ ...oldBoard, board });
 };
 
 /**

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import StatusColumn from './StatusColumn';
 import { changeTaskStatus } from '../operations/taskOperations';
+import { initTaskboard } from '../operations/taskBoardOperations';
 import {
   selectTasksAsMap,
   selectCurrentProject,
@@ -14,6 +15,12 @@ import Placeholder from './Placeholder';
 import TaskBoardToolbar from './TaskBoardToolbar';
 
 export class TaskBoard extends React.PureComponent {
+
+  componentDidMount = () => {
+    if (!this.props.taskBoard) {
+      this.props.initTaskboard();
+    }
+  }
 
   onDragEnd = async result => {
     const { taskBoard, tasks, changeTaskStatus } = this.props;
@@ -47,7 +54,7 @@ export class TaskBoard extends React.PureComponent {
                       <StatusColumn
                         key={status.name}
                         tasks={tasks}
-                        column={taskBoard[status.id]}
+                        column={taskBoard ? taskBoard[status.id] : []}
                         status={status}/>
                       {provided.placeholder}
                     </div>
@@ -74,5 +81,5 @@ export default connect(state =>
     selectedProject: selectCurrentProject(state),
     taskBoard: selectCurrentTaskboard(state)
   }),
-{ changeTaskStatus }
+{ changeTaskStatus, initTaskboard }
 )(TaskBoard);

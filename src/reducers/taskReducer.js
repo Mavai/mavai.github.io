@@ -35,7 +35,7 @@ export const selectTasksAsMap = tasks => {
 };
 
 export const selectColumnTasks = (tasks, column, filterOptions) => {
-  if (!tasks) return [];
+  if (!tasks || !column) return [];
   let columnTasks = column.map(taskId => tasks[taskId]);
   if (filterOptions.filter) {
     columnTasks = columnTasks.filter(task => task.name.includes(filterOptions.filter));

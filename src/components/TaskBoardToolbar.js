@@ -6,12 +6,12 @@ import { selectCurrentProject } from '../store';
 
 class TaskBoardToolbar extends React.PureComponent {
   render() {
-    const { filter, project, updateTaskBoardFilter, updateTaskBoardSortBy, loadTaskboard } = this.props;
+    const { filter, project, boardId, updateTaskBoardFilter, updateTaskBoardSortBy, loadTaskboard } = this.props;
     const sortOptions = [
       { key: 1, text: 'Name', value: 'name' }
     ];
     const boardOptions = project.taskboards.map(board => {
-      return { key: board, text: board, value: board };
+      return { key: board, text: 'test', value: board };
     });
     return (
       <div style={{ marginBottom: 10, display: 'flex', justifyContent: 'space-evenly' }}>
@@ -32,6 +32,7 @@ class TaskBoardToolbar extends React.PureComponent {
           placeholder="Select taskboard"
           clearable
           selection
+          value={boardId}
           options={boardOptions}
           onChange={(e, data) => loadTaskboard(data.value)}
         />
@@ -42,6 +43,7 @@ class TaskBoardToolbar extends React.PureComponent {
 
 export default connect(state =>
   ({
+    boardId: state.taskboard.id,
     filter: state.taskboard.filter,
     project: selectCurrentProject(state)
   }),
