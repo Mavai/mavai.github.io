@@ -47,7 +47,7 @@ export const selectStatuses = state => {
 
 //Taskboard selectors
 export const selectCurrentTaskboard = state => {
-  return state.taskboard.board;
+  return state.taskboard.layout;
 };
 
 export default store;

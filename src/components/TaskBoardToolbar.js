@@ -19,8 +19,8 @@ class TaskboardToolbar extends React.PureComponent {
       loadTaskboard
     } = this.props;
     const sortOptions = [{ key: 1, text: 'Name', value: 'name' }];
-    const boardOptions = project.taskboards.map(board => {
-      return { key: board, text: 'test', value: board };
+    const boardOptions = project.taskboards.map(taskboard => {
+      return { key: taskboard.id, text: taskboard.name, value: taskboard.id };
     });
     return (
       <div

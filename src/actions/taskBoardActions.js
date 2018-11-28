@@ -13,14 +13,14 @@ const updateTaskboardSortBy = sortBy => ({
   sortBy
 });
 
-const updateTaskboard = board => ({
-  type: 'UPDATE_TASKBOARD',
-  board
+const updateTaskboardLayout = layout => ({
+  type: 'UPDATE_TASKBOARD_LAYOUT',
+  layout
 });
 
 export default {
   initTaskboard,
   updateTaskboardFilter,
   updateTaskboardSortBy,
-  updateTaskboard
+  updateTaskboardLayout
 };

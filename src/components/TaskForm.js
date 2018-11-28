@@ -3,7 +3,7 @@ import { Form, Button } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { createTask } from '../operations/taskOperations';
 import { withFormik } from 'formik';
-import { selectStatuses } from '../store';
+import { selectStatuses, selectCurrentProject } from '../store';
 
 export class TaskForm extends React.PureComponent {
   getStatusDropdown = statuses => {
@@ -14,6 +14,18 @@ export class TaskForm extends React.PureComponent {
     }));
   };
 
+  getTaskboardDopdown = project => {
+    const options = project.taskboards.map(taskboard => ({
+      key: taskboard.id,
+      text: taskboard.name,
+      value: taskboard.id
+    }));
+    return [
+      { key: 'backlog', text: 'Backlog', value: 'taskboard' },
+      ...options
+    ];
+  };
+
   render() {
     const {
       statuses,
@@ -22,8 +34,10 @@ export class TaskForm extends React.PureComponent {
       handleSubmit,
       onCancel,
       onDelete,
-      values
+      values,
+      project
     } = this.props;
+    console.log(values);
     return (
       <Form onSubmit={handleSubmit}>
         <Form.Input
@@ -49,6 +63,18 @@ export class TaskForm extends React.PureComponent {
           name="status"
           placeholder="Status"
           defaultValue={values.status}
+        />
+        <Form.Dropdown
+          className="form-field"
+          selection
+          clearable
+          label="Taskboard"
+          options={this.getTaskboardDopdown(project)}
+          onChange={(e, { name, value }) => setFieldValue(name, value)}
+          name="taskboard"
+          placeholder="Taskboard"
+          defaultValue={values.taskboard}
+          disabled={values.backlog}
         />
         <Button type="submit" color="blue">
           Submit
@@ -84,10 +110,16 @@ export const handleSubmit = (values, { props }) => {
 
 export const FormikTaskForm = withFormik({
   mapPropsToValues: ({ initialValues = {} }) => {
-    const { name = '', description = '', status = {} } = initialValues;
+    const {
+      name = '',
+      description = '',
+      status = {},
+      taskboard = ''
+    } = initialValues;
     return {
       name,
       description,
+      taskboard,
       status: status.id || ''
     };
   },
@@ -96,7 +128,8 @@ export const FormikTaskForm = withFormik({
 
 export default connect(
   state => ({
-    statuses: selectStatuses(state)
+    statuses: selectStatuses(state),
+    project: selectCurrentProject(state)
   }),
   { createTask }
 )(FormikTaskForm);

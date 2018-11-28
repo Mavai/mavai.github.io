@@ -1,7 +1,7 @@
 const initialState = {
   filter: '',
   sortBy: '',
-  board: null
+  layout: null
 };
 
 export const taskboardReducer = (state = initialState, action) => {
@@ -15,8 +15,8 @@ export const taskboardReducer = (state = initialState, action) => {
     case 'UPDATE_TASKBOARD_SORT_BY': {
       return { ...state, sortBy: action.sortBy };
     }
-    case 'UPDATE_TASKBOARD': {
-      return { ...state, board: action.board };
+    case 'UPDATE_TASKBOARD_LAYOUT': {
+      return { ...state, layout: action.layout };
     }
     default: {
       return state;

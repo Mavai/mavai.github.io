@@ -26,51 +26,59 @@ export const loadTaskboard = id => async dispatch => {
   }
 };
 
-export const addTaskToBoard = task => async (dispatch, getState) => {
+export const addTaskToBoard = (task, taskboardId) => async (
+  dispatch,
+  getState
+) => {
   try {
-    const oldBoard = getState().taskboard;
-    const board = {
-      ...oldBoard.board,
-      [task.status.id]: [...oldBoard.board[task.status.id], task.id]
+    let currentTaskboard;
+    if (taskboardId) {
+      currentTaskboard = await taskboardService.getOne(taskboardId);
+    } else {
+      currentTaskboard = getState().taskboard;
+    }
+    const layout = {
+      ...currentTaskboard.layout,
+      [task.status.id]: [...currentTaskboard.layout[task.status.id], task.id]
     };
     const updatedTaskboard = await taskboardService.update({
-      ...oldBoard,
-      board
+      ...currentTaskboard,
+      layout
     });
-    dispatch(Creators.updateTaskboard(updatedTaskboard));
+    dispatch(Creators.updateTaskboardLayout(updatedTaskboard.layout));
   } catch (excpetion) {
     dispatch(removeTask(task, false));
   }
 };
 
 export const removeTaskFromBoard = task => async (dispatch, getState) => {
-  const oldBoard = getState().taskboard;
-  const board = {
-    ...oldBoard.board,
-    [task.status.id]: oldBoard.board[task.status.id].filter(
+  const currentTaskboard = getState().taskboard;
+  const layout = {
+    ...currentTaskboard.layout,
+    [task.status.id]: currentTaskboard.layout[task.status.id].filter(
       taskId => taskId !== task.id
     )
   };
   const updatedTaskboard = await taskboardService.update({
-    ...oldBoard,
-    board
+    ...currentTaskboard,
+    layout
   });
-  dispatch(Creators.updateTaskboard(updatedTaskboard.board));
+  dispatch(Creators.updateTaskboardLayout(updatedTaskboard.layout));
 };
 
 export const updateTaskOnBoard = (task, boardInfo) => async (
   dispatch,
   getState
 ) => {
-  const oldBoard = getState().taskboard;
-  let board = calculateTaskboard(oldBoard.board, task, boardInfo);
-  dispatch(Creators.updateTaskboard(board));
-  await taskboardService.update({ ...oldBoard, board });
+  const currentTaskboard = getState().taskboard;
+  let layout = calculateLayout(currentTaskboard.layout, task, boardInfo);
+  dispatch(Creators.updateTaskboardLayout(layout));
+  await taskboardService.update({ ...currentTaskboard, layout });
 };
 
 /**
- * Calculates new taskboard when a taks's status is changed.
- * @param {object} taskboard Current taskboard
+ * Calculates new layout when a taks's status is changed.
+ * @param {object} layout Current layout
  * @param {object} task Task to update
  * @param {object} boardInfo Information needed to calculate the new taskboad
  * @param {string} boardInfo.oldStatus Id of the orevious status
@@ -78,22 +86,22 @@ export const updateTaskOnBoard = (task, boardInfo) => async (
  * @param {number} boardInfo.sourceIndex Index in the previous column
  * @param {number} boardInfo.destinationIndex Index in the new column
  */
-const calculateTaskboard = (taskboard, task, boardInfo) => {
+const calculateLayout = (layout, task, boardInfo) => {
   const { oldStatus, newStatus, sourceIndex, destinationIndex } = boardInfo;
   if (oldStatus !== newStatus) {
     return {
-      ...taskboard,
-      [oldStatus]: taskboard[oldStatus].filter(taskId => taskId !== task.id),
+      ...layout,
+      [oldStatus]: layout[oldStatus].filter(taskId => taskId !== task.id),
       [newStatus]: [
-        ...taskboard[newStatus].slice(0, destinationIndex),
+        ...layout[newStatus].slice(0, destinationIndex),
         task.id,
-        ...taskboard[newStatus].slice(destinationIndex)
+        ...layout[newStatus].slice(destinationIndex)
       ]
     };
   } else {
     return {
-      ...taskboard,
-      [oldStatus]: move(taskboard[oldStatus], sourceIndex, destinationIndex)
+      ...layout,
+      [oldStatus]: move(layout[oldStatus], sourceIndex, destinationIndex)
     };
   }
 };

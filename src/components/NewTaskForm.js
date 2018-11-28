@@ -8,7 +8,7 @@ import { selectCurrentProject } from '../store';
 export class NewTaskForm extends React.PureComponent {
   onSubmit = formData => {
     const { createTask, history } = this.props;
-    createTask(formData);
+    createTask(formData, formData.taskboard);
     history.push('/');
   };
 
