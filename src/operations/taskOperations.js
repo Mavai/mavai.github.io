@@ -13,8 +13,12 @@ import Creators from '../actions/taskActions';
  */
 export const initTasks = id => {
   return async dispatch => {
-    const tasks = await taskService.getAllFromProject(id);
-    dispatch(Creators.initTasks(tasks));
+    try {
+      const tasks = await taskService.getAllFromProject(id);
+      dispatch(Creators.initTasks(tasks));
+    } catch (exception) {
+      console.warn('Error when fetching tasks', exception);
+    }
   };
 };
 
@@ -22,17 +26,24 @@ export const initTasks = id => {
  * Create a new task and update current project's taskboard.
  * @param {object} newTask Task to create
  */
-export const createTask = newTask => async (dispatch, getState) => {
+export const createTask = (newTask, taskboardId) => async (
+  dispatch,
+  getState
+) => {
   const selectedProject = selectCurrentProject(getState());
   try {
     const task = await taskService.createNew({
       ...newTask,
       project: selectedProject.id
     });
-    dispatch(Creators.createTask(task));
-    dispatch(addTaskToBoard(task));
+    try {
+      await dispatch(addTaskToBoard(task, taskboardId));
+      dispatch(Creators.createTask(task));
+    } catch (exception) {
+      taskService.deleteTask(task);
+    }
   } catch (exception) {
-    console.warn(exception);
+    console.warn('Error when creating a task', exception);
   }
 };
 
@@ -45,10 +56,18 @@ export const updateTask = (
   save = true,
   boardInfo
 ) => async dispatch => {
-  const task = save ? await taskService.update(updatedTask) : updatedTask;
-  dispatch(Creators.updateTask(task));
-  if (boardInfo) {
-    dispatch(updateTaskOnBoard(task, boardInfo));
+  try {
+    const task = save ? await taskService.update(updatedTask) : updatedTask;
+    if (boardInfo) {
+      try {
+        await dispatch(updateTaskOnBoard(task, boardInfo));
+        dispatch(Creators.updateTask(task));
+      } catch (exception) {
+        await taskService.update({ ...task, status: boardInfo.oldStatus });
+      }
+    }
+  } catch (exception) {
+    console.warn('Error when updating a task', exception);
   }
 };
 
@@ -57,8 +76,18 @@ export const updateTask = (
  * @param {object} task Task to update
  */
 export const changeTaskStatus = (task, boardInfo) => async dispatch => {
-  dispatch(updateTask(task));
-  dispatch(updateTaskOnBoard(task, boardInfo));
+  try {
+    dispatch(updateTask(task));
+    try {
+      dispatch(updateTaskOnBoard(task, boardInfo));
+    } catch (exception) {
+      const oldTask = { ...task, status: boardInfo.oldStatus };
+      taskService.update(oldTask);
+      Creators.updateTask(oldTask);
+    }
+  } catch (exception) {
+    console.warn('Error when changing task status', exception);
+  }
 };
 
 /**
@@ -67,10 +96,14 @@ export const changeTaskStatus = (task, boardInfo) => async dispatch => {
  */
 export const removeTask = (task, updateTaskboard = true) => {
   return async dispatch => {
-    await taskService.remove(task);
-    dispatch(Creators.deleteTask(task));
-    if (updateTaskboard) {
-      dispatch(removeTaskFromBoard(task));
+    try {
+      await taskService.remove(task);
+      if (updateTaskboard) {
+        await dispatch(removeTaskFromBoard(task));
+      }
+      dispatch(Creators.deleteTask(task));
+    } catch (exception) {
+      console.warn('Error when removing a task', exception);
     }
   };
 };

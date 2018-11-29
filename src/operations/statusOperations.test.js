@@ -1,9 +1,9 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import * as Types from '../constants/actionTypes';
-jest.mock('../services/statuses');
 import statusService from '../services/statuses';
 import * as Operations from '../operations/statusOperations';
+jest.mock('../services/statuses');
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);

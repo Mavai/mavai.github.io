@@ -37,7 +37,6 @@ export class TaskForm extends React.PureComponent {
       values,
       project
     } = this.props;
-    console.log(values);
     return (
       <Form onSubmit={handleSubmit}>
         <Form.Input

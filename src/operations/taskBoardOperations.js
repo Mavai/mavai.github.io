@@ -1,7 +1,6 @@
 import Creators from '../actions/taskboardActions';
 import taskboardService from '../services/taskboard';
 import move from 'lodash-move';
-import { removeTask } from '../operations/taskOperations';
 
 export const initTaskboard = () => async dispatch => {
   const savedBoard = localStorage.getItem('currentBoard');
@@ -47,7 +46,7 @@ export const addTaskToBoard = (task, taskboardId) => async (
     });
     dispatch(Creators.updateTaskboardLayout(updatedTaskboard.layout));
   } catch (excpetion) {
-    dispatch(removeTask(task, false));
+    console.warn('Error when adding a task to a taskboard', excpetion);
   }
 };
 
@@ -70,10 +69,14 @@ export const updateTaskOnBoard = (task, boardInfo) => async (
   dispatch,
   getState
 ) => {
-  const currentTaskboard = getState().taskboard;
-  let layout = calculateLayout(currentTaskboard.layout, task, boardInfo);
-  dispatch(Creators.updateTaskboardLayout(layout));
-  await taskboardService.update({ ...currentTaskboard, layout });
+  try {
+    const currentTaskboard = getState().taskboard;
+    let layout = calculateLayout(currentTaskboard.layout, task, boardInfo);
+    dispatch(Creators.updateTaskboardLayout(layout));
+    await taskboardService.update({ ...currentTaskboard, layout });
+  } catch (excpetion) {
+    console.warn('Error when updating a taskboard', excpetion);
+  }
 };
 
 /**
