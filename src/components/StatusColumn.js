@@ -39,7 +39,7 @@ export class StatusColumn extends React.PureComponent {
                           task={task}
                           removeTask={removeTask}
                           updateTask={updateTask}
-                          hide={!snapshot.isDragging && hideItems}
+                          hide={snapshot && !snapshot.isDragging && hideItems}
                         />
                         <EditTaskModal task={task} />
                       </div>

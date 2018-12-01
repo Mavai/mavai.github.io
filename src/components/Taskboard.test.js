@@ -16,14 +16,14 @@ describe('<Taskboard />', () => {
   const selectedProject = { id: 1, name: 'Test project' };
 
   it('renders content correctly when no project is selected', () => {
-    const wrapper = shallow(<Taskboard selectedProject={null} />);
+    const wrapper = shallow(<Taskboard selectedProject={null} initTaskboard={jest.fn()} />);
     expect(wrapper.find('Placeholder').exists()).toEqual(true);
     expect(wrapper.find('DragonDropContext').exists()).toEqual(false);
   });
 
   it('has correct amount of columns', () => {
     const wrapper = shallow(
-      <Taskboard statuses={statuses} selectedProject={selectedProject} />
+      <Taskboard statuses={statuses} selectedProject={selectedProject} initTaskboard={jest.fn()} />
     );
     expect(wrapper.find('Grid').prop('columns')).toEqual(2);
   });
@@ -33,8 +33,9 @@ describe('<Taskboard />', () => {
       <Taskboard
         selectedProject={selectedProject}
         tasks={tasks}
-        taskboard={taskboard}
+        layout={taskboard}
         statuses={statuses}
+        initTaskboard={jest.fn()}
       />
     );
     const droppable = wrapper.find('Connect(Droppable)').first();
@@ -52,8 +53,9 @@ describe('<Taskboard />', () => {
       <Taskboard
         selectedProject={selectedProject}
         tasks={tasks}
-        taskboard={taskboard}
+        layout={taskboard}
         statuses={statuses}
+        initTaskboard={jest.fn()}
       />
     );
     const droppable = wrapper.find('Connect(Droppable)').last();
@@ -70,8 +72,9 @@ describe('<Taskboard />', () => {
       <Taskboard
         selectedProject={selectedProject}
         tasks={tasks}
-        taskboard={taskboard}
+        layout={taskboard}
         statuses={statuses}
+        initTaskboard={jest.fn()}
       />
     );
     const result = {
@@ -87,21 +90,23 @@ describe('<Taskboard />', () => {
       <Taskboard
         selectedProject={selectedProject}
         tasks={tasks}
-        taskboard={taskboard}
+        layout={taskboard}
         statuses={statuses}
         changeTaskStatus={mockChangeStatus}
+        initTaskboard={jest.fn()}
       />
     );
     const result = {
       source: { droppableId: '1', index: 0 },
-      destination: { droppableId: '2', index: 0 }
+      destination: { droppableId: '2', index: 0 },
+      draggableId: '1'
     };
-    const { droppableId: oldStatus, index: sourceIndex } = result.source;
+    const { droppableId: oldStatus } = result.source;
     const {
       droppableId: newStatus,
       index: destinationIndex
     } = result.destination;
-    const boardInfo = { oldStatus, newStatus, sourceIndex, destinationIndex };
+    const boardInfo = { oldStatus, newStatus, destinationIndex };
     wrapper.instance().onDragEnd(result);
     expect(mockChangeStatus.mock.calls).toHaveLength(1);
     expect(mockChangeStatus.mock.calls[0][0]).toEqual({

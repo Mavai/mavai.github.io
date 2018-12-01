@@ -28,12 +28,12 @@ export const selectTasksByStatus = (tasks, statuses) => {
 export const selectTasksAsMap = tasks => {
   return tasks.length
     ? tasks.reduce(
-        (obj, task) => ({
-          ...obj,
-          [task.id]: task
-        }),
-        {}
-      )
+      (obj, task) => ({
+        ...obj,
+        [task.id]: task
+      }),
+      {}
+    )
     : null;
 };
 

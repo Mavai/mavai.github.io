@@ -1,5 +1,5 @@
 import Creators from '../actions/taskboardActions';
-import taskboardService from '../services/taskboard';
+import taskboardService from '../services/taskboards';
 import move from 'lodash-move';
 
 export const initTaskboard = () => async dispatch => {
@@ -98,11 +98,10 @@ export const updateTaskOnBoard = (task, boardInfo) => async (
  * @param {object} boardInfo Information needed to calculate the new taskboad
  * @param {string} boardInfo.oldStatus Id of the orevious status
  * @param {string} boardInfo.newStatus Id of the new status
- * @param {number} boardInfo.sourceIndex Index in the previous column
  * @param {number} boardInfo.destinationIndex Index in the new column
  */
 const calculateLayout = (layout, task, boardInfo) => {
-  const { oldStatus, newStatus, sourceIndex, destinationIndex } = boardInfo;
+  const { oldStatus, newStatus, destinationIndex } = boardInfo;
   if (oldStatus !== newStatus) {
     return {
       ...layout,
@@ -114,6 +113,7 @@ const calculateLayout = (layout, task, boardInfo) => {
       ]
     };
   } else {
+    const sourceIndex = layout[oldStatus].indexOf(task.id);
     return {
       ...layout,
       [oldStatus]: move(layout[oldStatus], sourceIndex, destinationIndex)

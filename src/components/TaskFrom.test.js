@@ -7,7 +7,8 @@ describe('<TaskForm />', () => {
   const values = {
     name: '',
     description: '',
-    status: ''
+    status: '',
+    taskboard: ''
   };
   const statuses = [
     { id: 1, name: 'Test status 1' },
@@ -50,7 +51,7 @@ describe('<TaskForm />', () => {
     wrapper.find(Dropdown).forEach(field => {
       field.simulate('change');
     });
-    expect(mockSetFieldValue.mock.calls.length).toEqual(1);
+    expect(mockSetFieldValue.mock.calls.length).toEqual(2);
   });
 
   it('handleSubmit is called with formData when the form is submitted', () => {

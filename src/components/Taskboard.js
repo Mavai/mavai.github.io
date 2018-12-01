@@ -23,26 +23,22 @@ export class Taskboard extends React.PureComponent {
   };
 
   onDragEnd = async result => {
-    console.log(result);
     const {
-      layout,
       tasks,
       taskboardHasFiltersActive,
       changeTaskStatus
     } = this.props;
     if (!result.destination) return;
-    const { droppableId: oldStatus, index: sourceIndex } = result.source;
+    const { droppableId: oldStatus } = result.source;
     const {
       droppableId: newStatus,
       index: destinationIndex
     } = result.destination;
-    const taskId = layout[oldStatus][sourceIndex];
-    const task = tasks[taskId];
+    const task = tasks[result.draggableId];
     const updatedTask = { ...task, status: newStatus };
     await changeTaskStatus(updatedTask, {
       oldStatus,
       newStatus,
-      sourceIndex,
       destinationIndex: taskboardHasFiltersActive ? Infinity : destinationIndex
     });
   };
@@ -73,7 +69,7 @@ export class Taskboard extends React.PureComponent {
                       style={{
                         minHeight: '100%',
                         padding: 5,
-                        backgroundColor: snapshot.isDraggingOver
+                        backgroundColor: snapshot && snapshot.isDraggingOver
                           ? 'lightsalmon'
                           : 'lightblue'
                       }}

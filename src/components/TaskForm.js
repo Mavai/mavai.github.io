@@ -15,6 +15,7 @@ export class TaskForm extends React.PureComponent {
   };
 
   getTaskboardDopdown = project => {
+    if (!project || !project.taskboards) return [];
     const options = project.taskboards.map(taskboard => ({
       key: taskboard.id,
       text: taskboard.name,

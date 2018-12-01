@@ -58,12 +58,13 @@ export const updateTask = (
 ) => async dispatch => {
   try {
     const task = save ? await taskService.update(updatedTask) : updatedTask;
+    dispatch(Creators.updateTask(task));
     if (boardInfo) {
       try {
         await dispatch(updateTaskOnBoard(task, boardInfo));
-        dispatch(Creators.updateTask(task));
       } catch (exception) {
         await taskService.update({ ...task, status: boardInfo.oldStatus });
+        dispatch(Creators.updateTask({ ...task, status: boardInfo.oldStatus }));
       }
     }
   } catch (exception) {
