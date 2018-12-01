@@ -15,7 +15,8 @@ export class StatusColumn extends React.PureComponent {
       filter,
       sortBy,
       removeTask,
-      updateTask
+      updateTask,
+      hideItems
     } = this.props;
     const columnTasks = selectColumnTasks(tasks, column, { filter, sortBy });
 
@@ -27,7 +28,7 @@ export class StatusColumn extends React.PureComponent {
               task && (
                 <div className="draggable-task" key={task.id}>
                   <Draggable key={task.id} draggableId={task.id} index={index}>
-                    {provided => (
+                    {(provided, snapshot) => (
                       <div
                         key={task.id}
                         ref={provided.innerRef}
@@ -38,6 +39,7 @@ export class StatusColumn extends React.PureComponent {
                           task={task}
                           removeTask={removeTask}
                           updateTask={updateTask}
+                          hide={!snapshot.isDragging && hideItems}
                         />
                         <EditTaskModal task={task} />
                       </div>

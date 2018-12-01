@@ -46,8 +46,12 @@ export const selectStatuses = state => {
 };
 
 //Taskboard selectors
-export const selectCurrentTaskboard = state => {
+export const selectCurrentLayout = state => {
   return state.taskboard.layout;
+};
+
+export const taskboardHasFiltersActive = state => {
+  return state.taskboard.filter || state.taskboard.sortBy;
 };
 
 export default store;

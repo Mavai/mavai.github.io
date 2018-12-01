@@ -1,28 +1,44 @@
 import projectService from '../services/projects';
 import Creators from '../actions/projectActions';
 import { initTasks } from '../operations/taskOperations';
-import { initTaskboard } from '../operations/taskboardOperations';
 
 export const initProjects = () => {
-  const selected = JSON.parse(localStorage.getItem('selectedProject'));
+  let selected;
+  try {
+    selected = JSON.parse(localStorage.getItem('selectedProject'));
+  } catch (exception) {
+    selected = null;
+  }
   return async dispatch => {
-    const projects = await projectService.getAll();
-    dispatch(Creators.initProjects(projects));
-    dispatch(initTaskboard(projects[0].taskboard));
-    if (selected) {
-      dispatch(Creators.changeSelected(selected));
-      dispatch(initTasks(selected));
+    try {
+      const projects = await projectService.getAll();
+      dispatch(Creators.initProjects(projects));
+      if (selected) {
+        dispatch(Creators.changeSelected(selected));
+        dispatch(initTasks(selected));
+      }
+    } catch (exception) {
+      console.log('Error when initializing projects', exception);
     }
   };
 };
 
 export const selectProject = project => async dispatch => {
-  localStorage.setItem('selectedProject', JSON.stringify(project));
-  dispatch(Creators.changeSelected(project));
-  dispatch(initTasks(project));
+  try {
+    localStorage.setItem('selectedProject', JSON.stringify(project));
+  } finally {
+    dispatch(Creators.changeSelected(project));
+    dispatch(initTasks(project));
+  }
 };
 
 export const updateProject = (project, save = true) => async dispatch => {
-  const updatedProject = save ? await projectService.update(project) : project;
-  dispatch(Creators.updateProject(updatedProject));
+  try {
+    const updatedProject = save
+      ? await projectService.update(project)
+      : project;
+    dispatch(Creators.updateProject(updatedProject));
+  } catch (exception) {
+    console.warn('Error when updating a project', exception);
+  }
 };

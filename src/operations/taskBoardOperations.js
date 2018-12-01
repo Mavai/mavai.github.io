@@ -3,9 +3,13 @@ import taskboardService from '../services/taskboard';
 import move from 'lodash-move';
 
 export const initTaskboard = () => async dispatch => {
-  const savedBoard = localStorage.getItem('currentBoard');
-  const taskboard = await taskboardService.getOne(savedBoard);
-  dispatch(Creators.initTaskboard(taskboard));
+  try {
+    const savedBoard = localStorage.getItem('currentBoard');
+    const taskboard = await taskboardService.getOne(savedBoard);
+    dispatch(Creators.initTaskboard(taskboard));
+  } catch (excpetion) {
+    console.warn('Error when initializing taskboard', excpetion);
+  }
 };
 export const updateTaskboardFilter = filter => {
   return Creators.updateTaskboardFilter(filter);
@@ -19,9 +23,13 @@ export const loadTaskboard = id => async dispatch => {
   if (!id) {
     dispatch(Creators.initTaskboard(null));
   } else {
-    const taskboard = await taskboardService.getOne(id);
-    dispatch(Creators.initTaskboard(taskboard));
-    localStorage.setItem('currentBoard', taskboard.id);
+    try {
+      const taskboard = await taskboardService.getOne(id);
+      dispatch(Creators.initTaskboard(taskboard));
+      localStorage.setItem('currentBoard', taskboard.id);
+    } catch (excpetion) {
+      console.warn('Error when loading taskboard', excpetion);
+    }
   }
 };
 
@@ -51,18 +59,22 @@ export const addTaskToBoard = (task, taskboardId) => async (
 };
 
 export const removeTaskFromBoard = task => async (dispatch, getState) => {
-  const currentTaskboard = getState().taskboard;
-  const layout = {
-    ...currentTaskboard.layout,
-    [task.status.id]: currentTaskboard.layout[task.status.id].filter(
-      taskId => taskId !== task.id
-    )
-  };
-  const updatedTaskboard = await taskboardService.update({
-    ...currentTaskboard,
-    layout
-  });
-  dispatch(Creators.updateTaskboardLayout(updatedTaskboard.layout));
+  try {
+    const currentTaskboard = getState().taskboard;
+    const layout = {
+      ...currentTaskboard.layout,
+      [task.status.id]: currentTaskboard.layout[task.status.id].filter(
+        taskId => taskId !== task.id
+      )
+    };
+    const updatedTaskboard = await taskboardService.update({
+      ...currentTaskboard,
+      layout
+    });
+    dispatch(Creators.updateTaskboardLayout(updatedTaskboard.layout));
+  } catch (excpetion) {
+    console.warn('Error when removing task from taskboard', excpetion);
+  }
 };
 
 export const updateTaskOnBoard = (task, boardInfo) => async (

@@ -15,10 +15,10 @@ class Task extends React.PureComponent {
   };
 
   render() {
-    const { task } = this.props;
+    const { task, hide } = this.props;
 
     return (
-      <Card fluid style={{ marginBottom: 10 }}>
+      <Card fluid style={{ marginBottom: 10, display: hide ? 'none' : '' }}>
         <Card.Content>
           <Card.Header>{task.name}</Card.Header>
           <Card.Content>

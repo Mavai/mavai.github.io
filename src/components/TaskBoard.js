@@ -8,40 +8,53 @@ import { initTaskboard } from '../operations/taskboardOperations';
 import {
   selectTasksAsMap,
   selectCurrentProject,
-  selectCurrentTaskboard,
-  selectStatuses
+  selectCurrentLayout,
+  selectStatuses,
+  taskboardHasFiltersActive
 } from '../store';
 import Placeholder from './Placeholder';
 import TaskboardToolbar from './TaskboardToolbar';
 
 export class Taskboard extends React.PureComponent {
   componentDidMount = () => {
-    if (!this.props.taskboard) {
+    if (!this.props.layout) {
       this.props.initTaskboard();
     }
   };
 
   onDragEnd = async result => {
-    const { taskboard, tasks, changeTaskStatus } = this.props;
+    console.log(result);
+    const {
+      layout,
+      tasks,
+      taskboardHasFiltersActive,
+      changeTaskStatus
+    } = this.props;
     if (!result.destination) return;
     const { droppableId: oldStatus, index: sourceIndex } = result.source;
     const {
       droppableId: newStatus,
       index: destinationIndex
     } = result.destination;
-    const taskId = taskboard[oldStatus][sourceIndex];
+    const taskId = layout[oldStatus][sourceIndex];
     const task = tasks[taskId];
     const updatedTask = { ...task, status: newStatus };
     await changeTaskStatus(updatedTask, {
       oldStatus,
       newStatus,
       sourceIndex,
-      destinationIndex
+      destinationIndex: taskboardHasFiltersActive ? Infinity : destinationIndex
     });
   };
 
   render() {
-    const { selectedProject, statuses, taskboard, tasks } = this.props;
+    const {
+      selectedProject,
+      statuses,
+      layout,
+      tasks,
+      taskboardHasFiltersActive
+    } = this.props;
 
     if (!selectedProject) return <Placeholder />;
 
@@ -54,13 +67,25 @@ export class Taskboard extends React.PureComponent {
               <Grid.Column key={status.name}>
                 <h1>{status.name}</h1>
                 <Droppable droppableId={status.id}>
-                  {provided => (
-                    <div ref={provided.innerRef} style={{ minHeight: '100%' }}>
+                  {(provided, snapshot) => (
+                    <div
+                      ref={provided.innerRef}
+                      style={{
+                        minHeight: '100%',
+                        padding: 5,
+                        backgroundColor: snapshot.isDraggingOver
+                          ? 'lightsalmon'
+                          : 'lightblue'
+                      }}
+                    >
                       <StatusColumn
                         key={status.name}
                         tasks={tasks}
-                        column={taskboard ? taskboard[status.id] : []}
+                        column={layout ? layout[status.id] : []}
                         status={status}
+                        hideItems={
+                          taskboardHasFiltersActive && snapshot.isDraggingOver
+                        }
                       />
                       {provided.placeholder}
                     </div>
@@ -85,7 +110,8 @@ export default connect(
     tasks: selectTasksAsMap(state),
     statuses: selectStatuses(state),
     selectedProject: selectCurrentProject(state),
-    taskboard: selectCurrentTaskboard(state)
+    layout: selectCurrentLayout(state),
+    taskboardHasFiltersActive: taskboardHasFiltersActive(state)
   }),
   { changeTaskStatus, initTaskboard }
 )(Taskboard);

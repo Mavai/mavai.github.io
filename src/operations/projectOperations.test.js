@@ -1,12 +1,12 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import * as Types from '../constants/actionTypes';
-jest.mock('../services/projects');
 import projectService from '../services/projects';
-jest.mock('../services/tasks');
 import taskService from '../services/tasks';
 import * as Operations from '../operations/projectOperations';
 import { getAction } from '../testUtils';
+jest.mock('../services/projects');
+jest.mock('../services/tasks');
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
