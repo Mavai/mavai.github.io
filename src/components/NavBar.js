@@ -2,6 +2,7 @@ import React from 'react';
 import { NavLink, withRouter } from 'react-router-dom';
 import { Menu, Container } from 'semantic-ui-react';
 import ProjectDropdown from './ProjectDropdown';
+import TaskDropdown from './TaskDropdown';
 
 export class NavBar extends React.PureComponent {
   render() {
@@ -16,20 +17,13 @@ export class NavBar extends React.PureComponent {
             to="/"
             activeClassName="active"
           />
+          <TaskDropdown />
           <Menu.Item
             name="Taskboard"
             className="nav-link"
             as={NavLink}
             exact
             to="/taskboard"
-            activeClassName="active"
-          />
-          <Menu.Item
-            name="New task"
-            className="nav-link"
-            as={NavLink}
-            exact
-            to="/create"
             activeClassName="active"
           />
           <ProjectDropdown />

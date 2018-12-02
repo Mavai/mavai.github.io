@@ -9,6 +9,7 @@ import { initTasks } from './operations/taskOperations';
 import { initStatuses } from './operations/statusOperations';
 import { initProjects } from './operations/projectOperations';
 import NewTaskForm from './components/NewTaskForm';
+import Backlog from './components/Backlog';
 
 export class App extends PureComponent {
   componentDidMount = async () => {
@@ -23,6 +24,7 @@ export class App extends PureComponent {
           <NavBar />
           <Container style={{ marginTop: 60 }}>
             <Route exact path="/" render={() => <ProjectInfo />} />
+            <Route exact path="/backlog" render={() => <Backlog />} />
             <Route exact path="/taskboard" render={() => <Taskboard />} />
             <Route
               exact

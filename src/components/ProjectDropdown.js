@@ -11,6 +11,7 @@ export class ProjectDropdown extends React.PureComponent {
       <Dropdown
         className="dropdown"
         item
+        simple
         text={selectedProject ? selectedProject.name : 'Project'}
       >
         <Dropdown.Menu>
