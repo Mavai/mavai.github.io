@@ -2,14 +2,19 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { List } from 'semantic-ui-react';
 import moment from 'moment';
+import BacklogToolbar from './BacklogToolbar';
 
 class Backlog extends React.PureComponent {
   render = () => {
-    const { tasks } = this.props;
+    const { tasks, includeFromTaskboards } = this.props;
+    const filteredTasks = includeFromTaskboards
+      ? tasks
+      : tasks.filter(task => !task.taskboard);
     return (
       <div>
+        <BacklogToolbar />
         <List celled relaxed>
-          {tasks.map(task => (
+          {filteredTasks.map(task => (
             <List.Item key={task.id}>
               <List.Header as="h3">{task.name}</List.Header>
               <List.Description>{task.description}</List.Description>
@@ -26,7 +31,8 @@ class Backlog extends React.PureComponent {
 
 export default connect(
   state => ({
-    tasks: state.tasks
+    tasks: state.tasks,
+    includeFromTaskboards: state.backlog.includeFromTaskboards
   }),
   null
 )(Backlog);

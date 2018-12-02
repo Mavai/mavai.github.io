@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dropdown } from 'semantic-ui-react';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 class TaskDropdown extends React.PureComponent {
   render = () => {
@@ -11,19 +11,17 @@ class TaskDropdown extends React.PureComponent {
             name="Backlog"
             text="Backlog"
             className="nav-link"
-            as={NavLink}
-            exact
+            as={Link}
             to="/backlog"
-            activeClassName="active"
+            active={false}
           />
           <Dropdown.Item
             name="New task"
             text="New task"
             className="nav-link"
-            as={NavLink}
-            exact
+            as={Link}
             to="/create"
-            activeClassName="active"
+            active={false}
           />
         </Dropdown.Menu>
       </Dropdown>

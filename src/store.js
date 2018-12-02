@@ -3,6 +3,7 @@ import taskReducer, * as FromTasks from './reducers/taskReducer';
 import statusReducer from './reducers/statusReducer';
 import projectReducer, * as FromProjects from './reducers/projectReducer';
 import taskboardReducer from './reducers/taskboardReducer';
+import backlogReducer from './reducers/backlogReducer';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
 
@@ -10,7 +11,8 @@ const reducer = combineReducers({
   tasks: taskReducer,
   statuses: statusReducer,
   projects: projectReducer,
-  taskboard: taskboardReducer
+  taskboard: taskboardReducer,
+  backlog: backlogReducer
 });
 
 const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk)));
