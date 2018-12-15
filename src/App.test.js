@@ -4,6 +4,7 @@ import { App } from './App';
 import ProjectInfo from './components/ProjectInfo';
 import Taskboard from './components/Taskboard';
 import NewTaskForm from './components/NewTaskForm';
+import Backlog from './components/Backlog';
 
 describe('<App />', () => {
   it('componentDidMount initializes projects and statuses', async () => {
@@ -34,14 +35,19 @@ describe('<App />', () => {
       .first()
       .prop('render')();
     expect(projectInfo).toEqual(<ProjectInfo />);
-    const taskboard = wrapper
+    const backlog = wrapper
       .find('Route')
       .at(1)
+      .prop('render')();
+    expect(backlog).toEqual(<Backlog />);
+    const taskboard = wrapper
+      .find('Route')
+      .at(2)
       .prop('render')();
     expect(taskboard).toEqual(<Taskboard />);
     const newTaskForm = wrapper
       .find('Route')
-      .at(2)
+      .at(3)
       .prop('render')({ history: 'mock' });
     expect(newTaskForm).toEqual(<NewTaskForm history="mock" />);
   });
