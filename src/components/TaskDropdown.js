@@ -4,28 +4,25 @@ import { Link } from 'react-router-dom';
 
 class TaskDropdown extends React.PureComponent {
   render = () => {
-    return (
-      <Dropdown item simple text="Tasks">
-        <Dropdown.Menu>
-          <Dropdown.Item
-            name="Backlog"
-            text="Backlog"
-            className="nav-link"
-            as={Link}
-            to="/backlog"
-            active={false}
-          />
-          <Dropdown.Item
-            name="New task"
-            text="New task"
-            className="nav-link"
-            as={Link}
-            to="/create"
-            active={false}
-          />
-        </Dropdown.Menu>
-      </Dropdown>
-    );
+    const options = [
+      {
+        key: 'Backlog',
+        text: 'Backlog',
+        value: 'Backlog',
+        className: 'nav-link',
+        as: Link,
+        to: '/backlog'
+      },
+      {
+        key: 'New task',
+        text: 'New task',
+        value: 'New task',
+        className: 'nav-link',
+        as: Link,
+        to: '/create'
+      }
+    ];
+    return <Dropdown simple item text="Tasks" options={options} />;
   };
 }
 

@@ -10,6 +10,7 @@ class Backlog extends React.PureComponent {
     const filteredTasks = includeFromTaskboards
       ? tasks
       : tasks.filter(task => !task.taskboard);
+    console.log(includeFromTaskboards);
     return (
       <div>
         <BacklogToolbar />

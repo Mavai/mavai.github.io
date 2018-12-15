@@ -21,10 +21,7 @@ export class TaskForm extends React.PureComponent {
       text: taskboard.name,
       value: taskboard.id
     }));
-    return [
-      { key: 'backlog', text: 'Backlog', value: 'taskboard' },
-      ...options
-    ];
+    return [{ key: 'backlog', text: 'Backlog', value: 'backlog' }, ...options];
   };
 
   render() {

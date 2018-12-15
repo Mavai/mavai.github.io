@@ -20,9 +20,9 @@ export class App extends PureComponent {
   render() {
     return (
       <Router>
-        <div>
+        <div style={{ height: '100%' }}>
           <NavBar />
-          <Container style={{ marginTop: 60 }}>
+          <Container style={{ paddingTop: 60, height: '100%' }}>
             <Route exact path="/" render={() => <ProjectInfo />} />
             <Route exact path="/backlog" render={() => <Backlog />} />
             <Route exact path="/taskboard" render={() => <Taskboard />} />

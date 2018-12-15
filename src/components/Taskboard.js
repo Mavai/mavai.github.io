@@ -23,11 +23,7 @@ export class Taskboard extends React.PureComponent {
   };
 
   onDragEnd = async result => {
-    const {
-      tasks,
-      taskboardHasFiltersActive,
-      changeTaskStatus
-    } = this.props;
+    const { tasks, taskboardHasFiltersActive, changeTaskStatus } = this.props;
     if (!result.destination) return;
     const { droppableId: oldStatus } = result.source;
     const {
@@ -55,10 +51,14 @@ export class Taskboard extends React.PureComponent {
     if (!selectedProject) return <Placeholder />;
 
     return (
-      <div>
+      <div style={{ height: '100%' }}>
         <TaskboardToolbar />
         <DragDropContext onDragEnd={this.onDragEnd}>
-          <Grid columns={statuses.length || 1} stackable>
+          <Grid
+            columns={statuses.length || 1}
+            style={{ alignItems: 'flex-start' }}
+            stackable
+          >
             {statuses.map(status => (
               <Grid.Column key={status.name}>
                 <h1>{status.name}</h1>
@@ -69,9 +69,10 @@ export class Taskboard extends React.PureComponent {
                       style={{
                         minHeight: '100%',
                         padding: 5,
-                        backgroundColor: snapshot && snapshot.isDraggingOver
-                          ? 'lightsalmon'
-                          : 'lightblue'
+                        backgroundColor:
+                          snapshot && snapshot.isDraggingOver
+                            ? 'lightsalmon'
+                            : ''
                       }}
                     >
                       <StatusColumn

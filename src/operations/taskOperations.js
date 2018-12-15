@@ -34,6 +34,7 @@ export const createTask = (newTask, taskboardId) => async (
   try {
     const task = await taskService.createNew({
       ...newTask,
+      taskboard: taskboardId,
       project: selectedProject.id
     });
     try {
