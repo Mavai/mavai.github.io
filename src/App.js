@@ -12,6 +12,8 @@ import NewTaskForm from './components/Task/NewTaskForm';
 import Backlog from './components/Task/Backlog';
 import ProjectForm from './components/Project/ProjectForm';
 import UserForm from './components/User/UserForm';
+import { createUser } from './operations/userOperations';
+import LoginForm from './components/User/LoginForm';
 
 export class App extends PureComponent {
   componentDidMount = async () => {
@@ -22,6 +24,12 @@ export class App extends PureComponent {
   projectFormOnSubmit = history => formData => {
     const { createProject } = this.props;
     createProject(formData);
+    history.push('/');
+  };
+
+  userFormOnSubmit = history => formData => {
+    const { createUser } = this.props;
+    createUser(formData);
     history.push('/');
   };
 
@@ -49,7 +57,14 @@ export class App extends PureComponent {
             <Route
               exact
               path="/new_user"
-              render={({ history }) => <UserForm />}
+              render={({ history }) => (
+                <UserForm onSubmit={this.userFormOnSubmit(history)} />
+              )}
+            />
+            <Route
+              exact
+              path="/login"
+              render={({ history }) => <LoginForm />}
             />
           </Container>
         </div>
@@ -62,5 +77,5 @@ export default connect(
   state => ({
     selectedProject: state.projects.selected
   }),
-  { initTasks, initStatuses, initProjects, createProject }
+  { initTasks, initStatuses, initProjects, createProject, createUser }
 )(App);

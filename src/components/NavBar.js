@@ -36,6 +36,14 @@ export class NavBar extends React.PureComponent {
           />
           <ProjectDropdown />
           <Menu.Item
+            name="Login"
+            className="nav-link"
+            as={NavLink}
+            exact
+            to="/login"
+            activeClassName="active"
+          />
+          <Menu.Item
             name="Register"
             className="nav-link"
             as={NavLink}
