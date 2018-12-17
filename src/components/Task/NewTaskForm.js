@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { createTask } from '../operations/taskOperations';
-import Placeholder from './Placeholder';
+import { createTask } from '../../operations/taskOperations';
+import Placeholder from '../Placeholder';
 import TaskForm from './TaskForm';
-import { selectCurrentProject } from '../store';
+import { selectCurrentProject } from '../../store';
 
 export class NewTaskForm extends React.PureComponent {
   onSubmit = formData => {

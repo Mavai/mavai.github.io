@@ -1,12 +1,12 @@
 import React from 'react';
 import { PieChart, Pie, Tooltip, Cell, Legend } from 'recharts';
 import { connect } from 'react-redux';
-import Placeholder from './Placeholder';
+import Placeholder from '../Placeholder';
 import {
   selectTasksByStatus,
   selectTasks,
   selectCurrentProject
-} from '../store';
+} from '../../store';
 
 export class ProjectInfo extends React.PureComponent {
   render() {

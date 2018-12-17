@@ -5,8 +5,8 @@ import {
   updateTaskboardFilter,
   updateTaskboardSortBy,
   loadTaskboard
-} from '../operations/taskboardOperations';
-import { selectCurrentProject } from '../store';
+} from '../../operations/taskboardOperations';
+import { selectCurrentProject } from '../../store';
 
 class TaskboardToolbar extends React.PureComponent {
   render() {

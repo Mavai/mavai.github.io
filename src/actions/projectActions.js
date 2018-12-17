@@ -8,6 +8,11 @@ const changeSelected = project => ({
   project
 });
 
+const createProject = project => ({
+  type: 'CREATE_PROJECT',
+  project
+});
+
 const updateProject = project => ({
   type: 'UPDATE_PROJECT',
   project
@@ -16,5 +21,6 @@ const updateProject = project => ({
 export default {
   initProjects,
   changeSelected,
+  createProject,
   updateProject
 };

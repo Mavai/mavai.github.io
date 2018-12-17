@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { updateTask, removeTask } from '../operations/taskOperations';
+import { updateTask, removeTask } from '../../operations/taskOperations';
 import TaskForm from './TaskForm';
 
 export class EditTaskForm extends React.PureComponent {

@@ -2,17 +2,17 @@ import React from 'react';
 import { Grid } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
-import StatusColumn from './StatusColumn';
-import { changeTaskStatus } from '../operations/taskOperations';
-import { initTaskboard } from '../operations/taskboardOperations';
+import StatusColumn from '../Status/StatusColumn';
+import { changeTaskStatus } from '../../operations/taskOperations';
+import { initTaskboard } from '../../operations/taskboardOperations';
 import {
   selectTasksAsMap,
   selectCurrentProject,
   selectCurrentLayout,
   selectStatuses,
   taskboardHasFiltersActive
-} from '../store';
-import Placeholder from './Placeholder';
+} from '../../store';
+import Placeholder from '../Placeholder';
 import TaskboardToolbar from './TaskboardToolbar';
 
 export class Taskboard extends React.PureComponent {

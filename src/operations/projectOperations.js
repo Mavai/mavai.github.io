@@ -32,6 +32,15 @@ export const selectProject = project => async dispatch => {
   }
 };
 
+export const createProject = project => async dispatch => {
+  try {
+    const newProject = await projectService.createNew(project);
+    dispatch(Creators.createProject(newProject));
+  } catch (exception) {
+    console.log('Error when creating a project', exception);
+  }
+};
+
 export const updateProject = (project, save = true) => async dispatch => {
   try {
     const updatedProject = save

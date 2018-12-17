@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { Taskboard } from './Taskboard';
-import StatusColumn from './StatusColumn';
+import StatusColumn from '../Status/StatusColumn';
 
 describe('<Taskboard />', () => {
   const statuses = [{ id: 1, name: 'Started' }, { id: 2, name: 'Finished' }];
@@ -16,14 +16,20 @@ describe('<Taskboard />', () => {
   const selectedProject = { id: 1, name: 'Test project' };
 
   it('renders content correctly when no project is selected', () => {
-    const wrapper = shallow(<Taskboard selectedProject={null} initTaskboard={jest.fn()} />);
+    const wrapper = shallow(
+      <Taskboard selectedProject={null} initTaskboard={jest.fn()} />
+    );
     expect(wrapper.find('Placeholder').exists()).toEqual(true);
     expect(wrapper.find('DragonDropContext').exists()).toEqual(false);
   });
 
   it('has correct amount of columns', () => {
     const wrapper = shallow(
-      <Taskboard statuses={statuses} selectedProject={selectedProject} initTaskboard={jest.fn()} />
+      <Taskboard
+        statuses={statuses}
+        selectedProject={selectedProject}
+        initTaskboard={jest.fn()}
+      />
     );
     expect(wrapper.find('Grid').prop('columns')).toEqual(2);
   });

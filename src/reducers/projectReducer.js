@@ -11,6 +11,8 @@ const projectReducer = (state = initialState, action) => {
     }
     case 'CHANGE_SELECTED':
       return { ...state, selected: action.project };
+    case 'CREATE_PROJECT':
+      return { ...state, all: [...state.all, action.project] };
     case 'UPDATE_PROJECT': {
       let filteredProjects = state.all.filter(
         project => project.id !== action.project.id

@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { ProjectInfo } from './ProjectInfo';
-import Placeholder from './Placeholder';
+import Placeholder from '../Placeholder';
 import { Cell } from 'recharts';
 
 const project = { name: 'Selected project' };

@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { NewTaskForm } from './NewTaskForm';
-import Placeholder from './Placeholder';
+import Placeholder from '../Placeholder';
 import TaskForm from './TaskForm';
 import { createMemoryHistory } from 'history';
 

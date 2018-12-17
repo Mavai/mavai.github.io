@@ -1,9 +1,9 @@
 import React from 'react';
 import { Form, Button } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-import { createTask } from '../operations/taskOperations';
+import { createTask } from '../../operations/taskOperations';
 import { withFormik } from 'formik';
-import { selectStatuses, selectCurrentProject } from '../store';
+import { selectStatuses, selectCurrentProject } from '../../store';
 
 export class TaskForm extends React.PureComponent {
   getStatusDropdown = statuses => {

@@ -1,11 +1,11 @@
 import React from 'react';
 import { Draggable } from 'react-beautiful-dnd';
-import Task from './Task';
+import Task from '../Task/Task';
 import { connect } from 'react-redux';
-import { removeTask, updateTask } from '../operations/taskOperations';
-import { selectCurrentProject } from '../store';
-import { selectColumnTasks } from '../reducers/taskReducer';
-import EditTaskModal from './EditTaskModal';
+import { removeTask, updateTask } from '../../operations/taskOperations';
+import { selectCurrentProject } from '../../store';
+import { selectColumnTasks } from '../../reducers/taskReducer';
+import EditTaskModal from '../Task/EditTaskModal';
 
 export class StatusColumn extends React.PureComponent {
   render() {

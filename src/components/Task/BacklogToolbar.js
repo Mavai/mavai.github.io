@@ -1,8 +1,8 @@
 import React from 'react';
 import { Input, Dropdown, Checkbox } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-import { toggleIncludeFromTaskboards } from '../operations/backlogOperations';
-import { selectCurrentProject } from '../store';
+import { toggleIncludeFromTaskboards } from '../../operations/backlogOperations';
+import { selectCurrentProject } from '../../store';
 
 class TaskboardToolbar extends React.PureComponent {
   render() {

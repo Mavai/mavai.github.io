@@ -1,8 +1,8 @@
 import React from 'react';
 import { NavLink, withRouter } from 'react-router-dom';
 import { Menu, Container } from 'semantic-ui-react';
-import ProjectDropdown from './ProjectDropdown';
-import TaskDropdown from './TaskDropdown';
+import ProjectDropdown from './Project/ProjectDropdown';
+import TaskDropdown from './Task/TaskDropdown';
 
 export class NavBar extends React.PureComponent {
   render() {
@@ -26,7 +26,23 @@ export class NavBar extends React.PureComponent {
             to="/taskboard"
             activeClassName="active"
           />
+          <Menu.Item
+            name="Create project"
+            className="nav-link"
+            as={NavLink}
+            exact
+            to="/new_project"
+            activeClassName="active"
+          />
           <ProjectDropdown />
+          <Menu.Item
+            name="Register"
+            className="nav-link"
+            as={NavLink}
+            exact
+            to="/new_user"
+            activeClassName="active"
+          />
         </Container>
       </Menu>
     );
