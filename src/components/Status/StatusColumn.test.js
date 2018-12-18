@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { StatusColumn } from './StatusColumn';
-import Task from './Task';
+import Task from '../Task/Task';
 
 describe('<StatusColumn />', () => {
   let wrapper;

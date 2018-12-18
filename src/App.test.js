@@ -1,10 +1,13 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { App } from './App';
-import ProjectInfo from './components/ProjectInfo';
-import Taskboard from './components/Taskboard';
-import NewTaskForm from './components/NewTaskForm';
-import Backlog from './components/Backlog';
+import ProjectInfo from './components/Project/ProjectInfo';
+import Taskboard from './components/Taskboard/Taskboard';
+import NewTaskForm from './components/Task/NewTaskForm';
+import Backlog from './components/Task/Backlog';
+import ProjectForm from './components/Project/ProjectForm';
+import LoginForm from './components/User/LoginForm';
+import UserForm from './components/User/UserForm';
 
 describe('<App />', () => {
   it('componentDidMount initializes projects and statuses', async () => {
@@ -45,10 +48,27 @@ describe('<App />', () => {
       .at(2)
       .prop('render')();
     expect(taskboard).toEqual(<Taskboard />);
-    const newTaskForm = wrapper
+    const projectForm = wrapper
       .find('Route')
       .at(3)
       .prop('render')({ history: 'mock' });
+    expect(projectForm).toEqual(
+      <ProjectForm onSubmit={expect.any(Function)} />
+    );
+    const newTaskForm = wrapper
+      .find('Route')
+      .at(4)
+      .prop('render')({ history: 'mock' });
     expect(newTaskForm).toEqual(<NewTaskForm history="mock" />);
+    const userForm = wrapper
+      .find('Route')
+      .at(5)
+      .prop('render')({ history: 'mock' });
+    expect(userForm).toEqual(<UserForm onSubmit={expect.any(Function)} />);
+    const loginForm = wrapper
+      .find('Route')
+      .at(6)
+      .prop('render')({ history: 'mock' });
+    expect(loginForm).toEqual(<LoginForm />);
   });
 });

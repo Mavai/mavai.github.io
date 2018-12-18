@@ -11,7 +11,7 @@ describe.only('<NavBar />', () => {
     const navigationLinks = navBar.find('.nav-link');
     const names = navigationLinks.map(link => link.prop('name'));
 
-    expect(names.length).toBe(2);
+    expect(names.length).toBe(5);
     expectedLinks.forEach(link => {
       expect(names).toContain(link);
     });
