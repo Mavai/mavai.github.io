@@ -1,14 +1,14 @@
 {
-  "main.js": "/static/js/main.712dbe78.chunk.js",
-  "main.js.map": "/static/js/main.712dbe78.chunk.js.map",
-  "static/css/1.a6bd8c0c.chunk.css": "/static/css/1.a6bd8c0c.chunk.css",
-  "static/js/1.ffb85dde.chunk.js": "/static/js/1.ffb85dde.chunk.js",
-  "static/js/1.ffb85dde.chunk.js.map": "/static/js/1.ffb85dde.chunk.js.map",
-  "runtime~main.js": "/static/js/runtime~main.229c360f.js",
-  "runtime~main.js.map": "/static/js/runtime~main.229c360f.js.map",
-  "static/media/semantic.min.css": "/static/media/brand-icons.a1a749e8.svg",
-  "static/css/1.a6bd8c0c.chunk.css.map": "/static/css/1.a6bd8c0c.chunk.css.map",
-  "index.html": "/index.html",
-  "precache-manifest.126fe417b36580a885f6cdbca6140a9e.js": "/precache-manifest.126fe417b36580a885f6cdbca6140a9e.js",
-  "service-worker.js": "/service-worker.js"
+  "main.js": "/tasklist-ui/static/js/main.712dbe78.chunk.js",
+  "main.js.map": "/tasklist-ui/static/js/main.712dbe78.chunk.js.map",
+  "static/css/1.f9c5317a.chunk.css": "/tasklist-ui/static/css/1.f9c5317a.chunk.css",
+  "static/js/1.450e9e64.chunk.js": "/tasklist-ui/static/js/1.450e9e64.chunk.js",
+  "static/js/1.450e9e64.chunk.js.map": "/tasklist-ui/static/js/1.450e9e64.chunk.js.map",
+  "runtime~main.js": "/tasklist-ui/static/js/runtime~main.a6f9971b.js",
+  "runtime~main.js.map": "/tasklist-ui/static/js/runtime~main.a6f9971b.js.map",
+  "static/media/semantic.min.css": "/tasklist-ui/static/media/icons.962a1bf3.svg",
+  "static/css/1.f9c5317a.chunk.css.map": "/tasklist-ui/static/css/1.f9c5317a.chunk.css.map",
+  "index.html": "/tasklist-ui/index.html",
+  "precache-manifest.9a47d75d08ce9767ce6c7eff3d4ba304.js": "/tasklist-ui/precache-manifest.9a47d75d08ce9767ce6c7eff3d4ba304.js",
+  "service-worker.js": "/tasklist-ui/service-worker.js"
 }
