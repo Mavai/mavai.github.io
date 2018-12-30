@@ -5,7 +5,7 @@
   },
   "proxies": {
     "/api/": {
-      "origin": "https://enigmatic-coast-52899.herokuapp.com"
+      "origin": "https://enigmatic-coast-52899.herokuapp.com/api"
     }
   }
 }
