@@ -2,7 +2,6 @@
   "name": "tasklist",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://markovai.github.io/tasklist-ui",
   "dependencies": {
     "axios": "^0.18.0",
     "formik": "^1.3.2",
