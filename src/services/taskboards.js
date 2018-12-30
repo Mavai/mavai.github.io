@@ -1,5 +1,5 @@
 import axios from 'axios';
-const baseUrl = 'api/taskboards';
+const baseUrl = '/api/taskboards';
 
 const getAll = async () => {
   const response = await axios.get(baseUrl);
