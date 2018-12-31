@@ -14,6 +14,8 @@ import ProjectForm from './components/Project/ProjectForm';
 import UserForm from './components/User/UserForm';
 import { createUser } from './operations/userOperations';
 import LoginForm from './components/User/LoginForm';
+import TaskboardForm from './components/Taskboard/TaskboardForm';
+import { createTaskboard } from './operations/taskboardOperations';
 
 export class App extends PureComponent {
   componentDidMount = async () => {
@@ -30,6 +32,12 @@ export class App extends PureComponent {
   userFormOnSubmit = history => formData => {
     const { createUser } = this.props;
     createUser(formData);
+    history.push('/');
+  };
+
+  taskboardFormOnsubmit = history => formData => {
+    const { selectedProject, createTaskboard } = this.props;
+    createTaskboard({ ...formData, project: selectedProject });
     history.push('/');
   };
 
@@ -66,6 +74,13 @@ export class App extends PureComponent {
               path="/login"
               render={({ history }) => <LoginForm />}
             />
+            <Route
+              exact
+              path="/create_taskboard"
+              render={({ history }) => (
+                <TaskboardForm onSubmit={this.taskboardFormOnsubmit(history)} />
+              )}
+            />
           </Container>
         </div>
       </Router>
@@ -77,5 +92,12 @@ export default connect(
   state => ({
     selectedProject: state.projects.selected
   }),
-  { initTasks, initStatuses, initProjects, createProject, createUser }
+  {
+    initTasks,
+    initStatuses,
+    initProjects,
+    createProject,
+    createUser,
+    createTaskboard
+  }
 )(App);

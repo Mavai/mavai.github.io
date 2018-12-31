@@ -1,11 +1,29 @@
 import React from 'react';
-import { NavLink, withRouter } from 'react-router-dom';
-import { Menu, Container } from 'semantic-ui-react';
+import { NavLink, withRouter, Link } from 'react-router-dom';
+import { Menu, Container, Dropdown } from 'semantic-ui-react';
 import ProjectDropdown from './Project/ProjectDropdown';
 import TaskDropdown from './Task/TaskDropdown';
 
 export class NavBar extends React.PureComponent {
   render() {
+    const options = [
+      {
+        key: 'Taskboard',
+        text: 'Taskboard',
+        value: 'Taskboard',
+        className: 'nav-link',
+        as: Link,
+        to: '/taskboard'
+      },
+      {
+        key: 'New taskboard',
+        text: 'New taskboard',
+        value: 'New taskboard',
+        className: 'nav-link',
+        as: Link,
+        to: '/create_taskboard'
+      }
+    ];
     return (
       <Menu fixed="top" size="huge">
         <Container>
@@ -18,14 +36,7 @@ export class NavBar extends React.PureComponent {
             activeClassName="active"
           />
           <TaskDropdown />
-          <Menu.Item
-            name="Taskboard"
-            className="nav-link"
-            as={NavLink}
-            exact
-            to="/taskboard"
-            activeClassName="active"
-          />
+          <Dropdown simple item text="Taskboard" options={options} />
           <Menu.Item
             name="Create project"
             className="nav-link"

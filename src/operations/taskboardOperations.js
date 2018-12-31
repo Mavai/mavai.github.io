@@ -1,6 +1,7 @@
 import Creators from '../actions/taskboardActions';
 import taskboardService from '../services/taskboards';
 import move from 'lodash-move';
+import { initProjects } from './projectOperations';
 
 export const initTaskboard = () => async dispatch => {
   try {
@@ -17,6 +18,17 @@ export const updateTaskboardFilter = filter => {
 
 export const updateTaskboardSortBy = sortBy => {
   return Creators.updateTaskboardSortBy(sortBy);
+};
+
+export const createTaskboard = formData => async (dispatch, getState) => {
+  const statuses = getState().statuses;
+  let layout = {};
+  statuses.forEach(status => {
+    layout[status.id] = [];
+  });
+  await taskboardService.createNew({ ...formData, layout });
+  console.log(initProjects);
+  dispatch(initProjects());
 };
 
 export const loadTaskboard = id => async dispatch => {
